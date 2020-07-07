@@ -1,0 +1,27 @@
+<% pager_id ||= 'paging' %>
+
+<div id="<%= pager_id %>">
+  <nav class="nav-page" aria-label="pagination">
+    <div>
+      <% if pager %>
+        <a class="nav-page-first"<% if pager.page > 1 %> href="<%= app_prefix(pager.link) %>&page=1"<% end %>>First</a>
+        <a class="nav-page-previous"<% if pager.page > 1 %> href="<%= app_prefix(pager.link) %>&page=<%= pager.prev %>"<% end %>>Previous</a>
+        <a class="nav-page-next"<% if pager.page < pager.last_page %> href="<%= app_prefix(pager.link) %>&page=<%= pager.next %>"<% end %>>Next</a>
+        <a class="nav-page-last"<% if pager.page < pager.last_page %> href="<%= app_prefix(pager.link) %>&page=<%= pager.last_page %>"<% end %>>Last</a>
+      <% end %>
+    </div>
+	<div>
+	  <% if defined?(@results) %>
+		<a aria-current="page">
+		  <%= defined?(@results_type) ? @results_type : t('search_results.results') %>
+		  <%= @results['offset_first'] %> &ndash;
+		  <%= @results['offset_last'] %> of
+		  <%= @results['total_hits'] %>
+		</a>
+	  <% end %>
+	  <% if pager_id == 'paging' %>
+	  <%= render partial: 'shared/sorter' %>
+	  <% end %>
+	</div>
+  </nav>
+</div>

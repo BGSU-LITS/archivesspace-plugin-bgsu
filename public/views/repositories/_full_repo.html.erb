@@ -1,0 +1,54 @@
+<% if url && url!= "http://url.unspecified" %>
+<div class="website">
+  <i class="fa fa-fw fa-link" aria-hidden="true"></i>
+  <a href="<%= url %>"><%= url  %></a>
+</div>
+<% end %>
+<% unless info.blank? %>
+<% if info["email"].present? %>
+<div class="email"><i class="fa fa-fw fa-envelope" aria-hidden="true"></i> <a href="mailto:<%= info['email'] %>" title="<%= t('email') %>"><%= info['email'] %></a></div>
+<% end %>
+
+<% if info["telephones"].present? %>
+   <% info["telephones"].each do |phone| %>
+   <div class="telephone">
+     <% if !phone['number'].blank? %>
+       <% if !phone['number_type'].blank? && phone['number_type'].strip.upcase == 'FAX' %>
+       <i class="fa fa-fw fa-fax"  aria-hidden="true"></i> <%= phone['number'] %> (<%= t('fax') %>)
+       <% else %>
+       <i class="fa fa-fw fa-phone" aria-hidden="true"></i> <%= phone['number'] %>
+       <% end %>
+     <% end %>
+   </div>
+   <% end %>
+<% end %>
+
+<% lead =  t("repos.#{info['top']['repo_code'].downcase}.lead_graph", default: '') %>
+<% unless lead.blank? %>
+<div id="lead_graph"><%= lead.html_safe %></div>
+<% end %>
+
+<% if info["top"]["description"].present? %>
+<div class="description">
+  <h2><%= t('description') %></h2><%= simple_format(info["top"]["description"]) %>
+</div>
+<% end %>
+
+<% if info["address"].present? %>
+<div class='contact_info'>
+  <h2><%= t('contact') %></h2>
+  <% if info["top"]["name"].present? %>
+    <%= info["top"]["name"] %>
+  <% end %>
+  <div class="street">
+    <%= info["address"].join(" <br/>").html_safe %>
+  </div>
+  <% %w{city region post_code country}.each do |type|
+    if info[type].present? %>
+      <span class="<%= type %>"><%= info[type] %></span>
+    <% end %>
+  <% end %>
+
+<% end %>
+
+<% end %>

@@ -1,0 +1,253 @@
+/* Reset link styles. */
+a, a:hover, a:focus {
+    color: inherit;
+    cursor: inherit;
+    text-decoration: inherit;
+}
+
+a:link, a:visited {
+    cursor: pointer;
+}
+
+/* Reset font redefinitions. */
+h1, h2, h3, h4, h5, h6,
+.inline-label,
+.record-type-badge,
+.identifier .id-label {
+    font-family: inherit;
+}
+
+/* Reset excessive borders, margins and padding. */
+#lead_graph,
+#whats-in-container,
+.contact_info,
+.description,
+.recordrow {
+    border: none;
+    margin: 20px 0;
+    padding: 0;
+}
+
+.recordrow {
+    margin-top: 0;
+}
+
+#content,
+.nav-page .sorter {
+    margin: 0;
+}
+
+.list-inline > li,
+.record-type-badge,
+.badge-and-identifier .identifier,
+.result_context,
+.result_context strong {
+    padding: 0;
+}
+
+/* Remove colors from record types. */
+.agent,
+.classification,
+.collection,
+.folder,
+.object,
+.person,
+.record,
+.resource,
+.top_container,
+.record-type-badge.accession,
+.record-type-badge.agent,
+.record-type-badge.archival_object,
+.record-type-badge.classification,
+.record-type-badge.digital_object,
+.record-type-badge.repository,
+.record-type-badge.resource,
+.record-type-badge.subject,
+.recordtype.repository,
+.recordtype.classification,
+button.subject {
+    color: inherit;
+}
+
+/* Restyle accordions and expanders. */
+.acc_holder {
+    margin: 0;
+}
+
+#content .acc_button,
+#content .expander {
+    background: inherit;
+    border: 1px solid;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
+#content .acc_button {
+    margin-bottom: 20px;
+}
+
+#content .expander {
+    margin-left: 4px;
+    padding: 2px 4px;
+    white-space: nowrap;
+}
+
+/* Reset colors for alerts. */
+#content .alert {
+    color: inherit;
+}
+
+#content .alert.alert-danger {
+    background: #fff2f2;
+    border-color: #c00;
+}
+
+/* Restyle generic buttons. */
+.btn.btn-default {
+    background: #fff;
+    border: 1px solid #ccc;
+    color: #7f3f2f;
+    line-height: inherit;
+    text-decoration: none;
+}
+
+.btn.btn-default:hover,
+.btn.btn-default:focus {
+    color: #4f2c1d;
+}
+
+/* Show icons that are hidden. */
+.close[aria-hidden=true],
+.fa[aria-hidden=true],
+.record-type-badge[aria-hidden=true] {
+    display: inline-block;
+}
+
+/* Fix appearance of number of facet records. */
+.facets .recordnumber {
+    font-size: 0.875em;
+    padding: 0 4px;
+}
+
+/* Fix spacing for filter forms. */
+.filter_more form {
+    margin: 0 15px 20px 15px;
+    max-width: 100%;
+}
+
+.form-group {
+    margin-bottom: 4px;
+}
+
+/* Restyle infinite records. */
+.infinite-record-wrapper {
+    height: 627px;
+}
+
+.infinite-record-container {
+    padding-right: 15px;
+}
+
+/* Restyle tree widget. */
+.largetree-container {
+    background: transparent;
+    margin-bottom: 0;
+}
+
+.largetree-container tr.current {
+    outline-color: #f9f6b8;
+}
+
+.largetree-container tr.current td {
+    background-color: #fffff2;
+}
+
+.largetree-container .indentor {
+    background-color: transparent;
+    vertical-align: top;
+}
+
+.largetree-container table.root tbody tr:nth-of-type(odd) {
+    background-color: transparent;
+}
+
+.largetree-container table.root tbody tr:first-child {
+     background-color: transparent
+}
+
+/* Fix spacing of modal footers. */
+.modal-footer {
+    padding-right: 7px;
+}
+
+/* Remove additional styles from tabs. */
+.nav-tabs {
+    border-bottom: none;
+}
+
+/* Fix spacing of single notes and dates. */
+.note-content,
+.subnote,
+#content .dates-is-single-date {
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+/* Move digital objects to be their own left aligned row. */
+.objectimage {
+    float: left;
+    margin: 0 20px 20px 0;
+    width: auto;
+}
+
+.upper-record-details {
+    clear: left;
+}
+
+/* Make required fields less crazy. */
+span.required {
+    color: inherit;
+    font-variant: normal;
+    text-transform: capitalize;
+}
+
+/* Fix issues with resizable sidebars. */
+#sidebar.resizable-sidebar {
+    padding: 10px;
+}
+
+@media (min-width: 992px) {
+    #sidebar.resizable-sidebar {
+        padding-left: 18px;
+    }
+}
+
+#sidebar form {
+    max-width: 100%;
+    margin: 0 15px;
+}
+
+#sidebar .resizable-sidebar-handle {
+    display: block;
+}
+
+.has-resizable-content {
+    margin-right: 0;
+}
+
+/* Restyle search statement. */
+.searchstatement {
+    background-color: #f2f2f2;
+    border-radius: 4px;
+    line-height: 1.5;
+    margin: 0 0 8px 0;
+    padding: 4px 8px;
+}
+
+.searchstatement .btn-group, .refinesearch {
+    margin: 6px 0 0 0;
+}
+
+.searchstatement .no-bullets {
+    margin: 0;
+}

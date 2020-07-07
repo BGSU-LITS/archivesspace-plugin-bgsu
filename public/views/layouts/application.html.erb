@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="<%= AppConfig[:locale] %>">
+<head>
+    <meta charset="utf-8">
+    <title>
+        <%= (@page_title.blank? ? '' : "#{strip_mixed_content(@page_title)} - ") %>
+        <%= t('brand.title') %>
+        - BGSU University Libraries
+    </title>
+    <script>
+        // Hide page until fully loaded to prevent flash of unstyled content.
+        (function() {
+            var html = document.querySelector('html');
+            html.style.display = 'none';
+
+            document.addEventListener(
+                'DOMContentLoaded',
+                function(event) {
+                    html.style.display = 'block';
+                }
+            );
+        })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<%= csrf_meta_tags %>
+
+	<%# block cross-origin refer per https://go-to-hellman.blogspot.com/2015/06/protect-reader-privacy-with-referrer.html %>
+	<% if AppConfig[:pui_block_referrer] %>
+		<meta name="referrer" content="origin-when-cross-origin" />
+	<% end %>
+
+	<script>
+	 var APP_PATH = '<%= PrefixHelper.app_prefix("") %>';
+	</script>
+
+	<%= stylesheet_link_tag    'application', media: 'all' %>
+	<%= javascript_include_tag 'application' %>
+
+	<%= render partial: 'shared/metadata' %>
+
+	<% ASUtils.find_local_directories('public/views/layout_head.html.erb').each do |template| %>
+		<% if File.exists?(template) %>
+			<!-- Begin plugin layout -->
+			<%= render :file => template %>
+			<!-- End plugin layout -->
+		<% end %>
+	<% end %>
+</head>
+
+<body>
+    <main id="content">
+        <a name="maincontent" id="maincontent"></a>
+        <%= flash_messages %>
+        <%= yield %>
+    </main>
+
+	<script  type="text/javascript" >
+		$(".upper-record-details .note-content").each(function(index, element){$(this).readmore(<%= AppConfig[:pui_readmore_max_characters] %>)});
+	</script>
+
+	<% if AppConfig[:pui_enable_staff_link] %>
+		<% if AppConfig.has_key?(:frontend_proxy_url) && defined?(@result) && @result.respond_to?(:uri) %>
+			<script>
+				FRONTEND_URL = "<%= j(AppConfig[:frontend_proxy_url]) %>";
+				RECORD_URI = "<%= j(@result.uri) %>";
+				STAFF_LINK_MODE = "<%= j(AppConfig[:pui_staff_link_mode]) %>";
+			</script>
+		<% end %>
+	<% end %>
+
+    <script src="https://lib.bgsu.edu/template/1.1.16/common.js"></script>
+    <script src="https://lib.bgsu.edu/template/1.1.16/template.js"></script>
+    <script>
+        <% welcome = request.original_fullpath.chomp('/') == app_prefix('/').chomp('/') %>
+        bgsu_template.setup({
+            body: true,
+            main: {
+                id: 'content',
+                top: 'top',
+            },
+            unit: {
+                thin: 'University',
+                text: 'Libraries',
+                href: 'https://www.bgsu.edu/library/',
+            },
+            site: {
+                text: '<%= t('brand.title') %>',
+                href: '<%= app_prefix('/') %>',
+                heading: <%= welcome ? 'true' : 'false' %>,
+            },
+            menu: [
+                <% $MAIN_MENU.each do |link| %>
+                {
+                    text: '<%= t(link[1]) %>',
+                    title: 'View <%= t(link[1]) %>',
+                    href: '<%= app_prefix(link[0]) %>',
+                },
+                <% end %>
+            ],
+            <% unless AppConfig[:pui_hide][:search_tab] || welcome %>
+            form: {
+                action: "<%= app_prefix('/search') %>",
+                method: "get",
+                hidden: {
+                    "utf8": "✓",
+                    "op[]": "",
+                },
+                name: "q[]",
+                text: '<%= I18n.t('search_tab', :target => t('archive._plural')) %>',
+                button: "<%= t('search-button.label') %>",
+                menu: [
+                    {
+                        text: 'Advanced Search',
+                        href: '<%= app_prefix('/search?reset=true') %>',
+                    },
+                ],
+            },
+            <% end %>
+            help: {
+                heading: 'Contact Us',
+                text: 'libadmin@bgsu.edu',
+                href: 'mailto:libadmin@bgsu.edu',
+            },
+        });
+
+        bgsu_common.setup();
+    </script>
+</body>
+</html>

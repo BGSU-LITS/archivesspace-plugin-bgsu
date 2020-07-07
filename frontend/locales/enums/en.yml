@@ -1,0 +1,69 @@
+en:
+  enumerations:
+    extent_extent_type:
+      boxes: Boxes
+      cassettes: Cassettes
+      cubic_feet: Cubic Feet
+      documents: Documents
+      envelopes: Envelopes
+      files: Files
+      flat_files: Flat Files
+      floppy_discs: Floppy Discs
+      folders: Folders 
+      gigabytes: Gigabytes
+      glass_plate_negatives: Glass Plate Negatives
+      hard_drives: Hard Drives
+      illustrations: Illustrations
+      items: Items
+      leaves: Leaves
+      legal_archive_boxes: Legal Archive Boxes
+      linear_feet: Linear Feet
+      megabytes: Megabytes
+      objects: Objects
+      optical_discs: Optical Discs
+      pages: Pages
+      phonographic_discs: Phonographic Discs
+      photographic_negatives: Photographic Negatives
+      photographic_prints: Photographic Prints
+      photographic_slides: Photographic Slides
+      recordings: Recordings
+      reels: Reels
+      sheets: Sheets
+      terabytes: Terabytes
+      volumes: Volumes
+    collection_management_processing_status:
+      new: New
+      in_progress: In Progress
+      completed: Completed
+      unprocessed: Unprocessed
+    container_type:
+      box: Box
+      carton: Carton
+      case: Case
+      drawer: Drawer
+      envelope: Envelope
+      flat_file: Flat File
+      folder: Folder
+      frame: Frame
+      item: Item
+      object: Object
+      package: Package
+      page: Page
+      reel: Reel
+      volume: Volume
+    file_version_file_format_name:
+      aiff: Audio Interchange File Format
+      avi: Audio/Video Interleaved Format
+      gif: Graphics Interchange Format
+      jpeg: JPEG File Interchange Format
+      mp3: MPEG Audio Layer 3
+      pdf: Portable Document Format
+      tiff: Tagged Image File Format
+      txt: Plain Text File
+      wav: Waveform Audio File Format
+    user_defined_enum_1:
+      category_1: Category 1
+      category_2: Category 2
+      category_3: Category 3
+      category_4: Category 4
+      category_5: Category 5
