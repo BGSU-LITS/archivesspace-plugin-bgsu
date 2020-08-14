@@ -7,7 +7,7 @@
     <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
   </div>
 </div>
-<h2><%= t('contains', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')}) %></h2>
+<h2><%= t('contains', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('search_results.result') : t('search_results.results')}) %>:</h2>
 <div class="sidebar">
   <div>
     <% unless @results.blank? || @results['total_hits'] == 0 %>
