@@ -92,10 +92,31 @@
                 <% $MAIN_MENU.each do |link| %>
                 {
                     text: '<%= t(link[1]) %>',
+                    <% if link[0] == '/repositories' %>
+                    menu: [
+                        {
+                            text: 'Browne Popular Culture Library',
+                            href: '<%= app_prefix(link[0]) %>/2',
+                        },
+                        {
+                            text: 'Center for Archival Collections',
+                            href: '<%= app_prefix(link[0]) %>/4',
+                        },
+                        {
+                            text: 'Music Library and Bill Schurk Sound Archives',
+                            href: '<%= app_prefix(link[0]) %>/3',
+                        },
+                    ],
+                    <% else %>
                     title: 'View <%= t(link[1]) %>',
                     href: '<%= app_prefix(link[0]) %>',
+                    <% end %>
                 },
                 <% end %>
+                {
+                    text: 'Help',
+                    href: '#'
+                },
             ],
             <% unless AppConfig[:pui_hide][:search_tab] || welcome %>
             form: {

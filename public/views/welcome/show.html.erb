@@ -3,7 +3,7 @@
 
     <%= render partial: 'shared/search', locals: {
       :search_url => "/search",
-      :title => t('archive._plural'),
+      :title => nil,
       :limit_options => [
             ["#{t('actions.search')} #{t('search-limits.all')}",''],
             [t('search-limit', :limit => t('search-limits.resources')),'resource'],
@@ -18,3 +18,6 @@
             ["#{t('search_results.filter.identifier')}", 'four_part_id']
            ]
     } %>
+
+<h2><%= t('brand.requesting_head') %></h2>
+<div><%= t('brand.requesting_message').html_safe %></div>

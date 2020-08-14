@@ -21,7 +21,7 @@
       <%= text_field_tag('q[]', @search[:q][i], :placeholder =>  t('navbar.search_placeholder'), :id => "q#{i}",
             :class=> 'form-control repeats fill-column') %>
     </div>
-    <% if i == 0 %>
+    <% if i == 0 && false %>
       <div class="col-sm-3 form-group form-inline norepeat">
         <%= label_tag(:limit, t('search-limit'),:class => 'sr-only') %>
         <%= select_tag(:limit, options_for_select(limit_options, @search[:limit]), :class=> 'form-control fill-column') %>
@@ -47,7 +47,7 @@
   <% end %>
   <div class="row" id="submit_div">
     <div class="col-sm-2">
-      <%= submit_tag(t('search-button.label'), :class=>'button button-primary', :id => 'submit_search') %>
+      <p><%= submit_tag(t('search-button.label'), :class=>'button button-primary', :id => 'submit_search') %></p>
     </div>
   </div>
   <% end %>
