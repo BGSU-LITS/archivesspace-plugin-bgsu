@@ -20,11 +20,13 @@
 	     title="<%= t('search_results.remove_filter') %> " class="icon icon-remove delete_filter"></a>
       </span></li>
   <% end  %>
-   <% @filters.each do |k,h|  %>
-    <li><span class="filter"><%= h['pt'] %>:
-<%= h['pv'] %><a href="<%= app_prefix(h['uri'])%>"
-title="<%= t('search_results.remove_filter') %> " class="icon icon-remove delete_filter"></a></span></li>
-   <% end %>
+	<% @filters.each do |k, a| %>
+	  <% a.each do |h| %>
+		  <li><span class="filter"><%= h['pt'] %>: <%= h['pv'] %><a href="<%= app_prefix(h['uri']) %>"
+					title="<%= t('search_results.remove_filter') %> " class="icon icon-remove delete_filter"></a></span>
+		  </li>
+	  <% end %>
+	<% end %>
  </ul>
 </div>
  <% end %>
