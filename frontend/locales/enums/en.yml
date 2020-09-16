@@ -9,7 +9,7 @@ en:
       files: Files
       flat_files: Flat Files
       floppy_discs: Floppy Discs
-      folders: Folders 
+      folders: Folders
       gigabytes: Gigabytes
       glass_plate_negatives: Glass Plate Negatives
       hard_drives: Hard Drives
@@ -67,3 +67,5 @@ en:
       category_3: Category 3
       category_4: Category 4
       category_5: Category 5
+    _note_types:
+      abstract: Abstract
