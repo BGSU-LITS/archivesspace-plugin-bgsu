@@ -251,3 +251,27 @@ span.required {
 .searchstatement .no-bullets {
     margin: 0;
 }
+
+/* Restyle repository logos. */
+.repository-logo {
+    float: none;
+}
+
+.repository-logo img,
+.recordrow .repository-logo img {
+    height: 80px;
+    margin-bottom: 10px;
+    max-height: none;
+    max-width: none;
+    width: auto;
+}
+
+/* Add space after heading following tab controls. */
+#tabs + h2 {
+    margin-bottom: 20px;
+}
+
+/* Make padding of panels more consistent. */
+.panel-body {
+    padding: 20px 15px 0 15px;
+}
