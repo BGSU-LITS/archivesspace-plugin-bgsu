@@ -1,12 +1,34 @@
+<% if info["top"]["description"].present? %>
+<div class="description">
+  <%= simple_format(info["top"]["description"]) %>
+</div>
+<% end %>
+
+<% unless info.blank?  %>
+<% lead =  t("repos.#{info['top']['repo_code'].downcase}.lead_graph", default: '') %>
+<% unless lead.blank? %>
+<div id="lead_graph"><%= lead.html_safe %></div>
+<% end %>
+
 <% if url && url!= "http://url.unspecified" %>
 <div class="website">
-  <i class="fa fa-fw fa-link" aria-hidden="true"></i>
   <a href="<%= url %>"><%= url  %></a>
 </div>
 <% end %>
-<% unless info.blank? %>
-<% if info["email"].present? %>
-<div class="email"><i class="fa fa-fw fa-envelope" aria-hidden="true"></i> <a href="mailto:<%= info['email'] %>" title="<%= t('email') %>"><%= info['email'] %></a></div>
+
+<div class='contact_info'>
+  <h2><%= t('contact') %></h2>
+<% if info["address"].present? %>
+  <span class="street">
+    <%= info["address"].join("<br>").html_safe %>
+    <br>
+  </span>
+<% end %>
+
+<% %w{city region post_code country}.each do |type|
+   if info[type].present? %>
+     <span class="<%= type %>"><%= info[type] %></span>
+   <% end %>
 <% end %>
 
 <% if info["telephones"].present? %>
@@ -23,32 +45,9 @@
    <% end %>
 <% end %>
 
-<% lead =  t("repos.#{info['top']['repo_code'].downcase}.lead_graph", default: '') %>
-<% unless lead.blank? %>
-<div id="lead_graph"><%= lead.html_safe %></div>
+<% if info["email"].present? %>
+<div class="email"><i class="fa fa-fw fa-envelope" aria-hidden="true"></i> <a href="mailto:<%= info['email'] %>" title="<%= t('email') %>"><%= info['email'] %></a></div>
 <% end %>
 
-<% if info["top"]["description"].present? %>
-<div class="description">
-  <h2><%= t('description') %></h2><%= simple_format(info["top"]["description"]) %>
 </div>
-<% end %>
-
-<% if info["address"].present? %>
-<div class='contact_info'>
-  <h2><%= t('contact') %></h2>
-  <% if info["top"]["name"].present? %>
-    <%= info["top"]["name"] %>
-  <% end %>
-  <div class="street">
-    <%= info["address"].join(" <br/>").html_safe %>
-  </div>
-  <% %w{city region post_code country}.each do |type|
-    if info[type].present? %>
-      <span class="<%= type %>"><%= info[type] %></span>
-    <% end %>
-  <% end %>
-
-<% end %>
-
 <% end %>
