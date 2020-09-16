@@ -24,7 +24,11 @@ en:
       viewing a collection in its entirety will require visiting the
       repository.</p>
   actions:
+    print: Print PDF
     search_header: Search the Archives
+  archival_object:
+    _singular: Part of Collection
+    _plural: Parts of Collection
   classification:
     _singular: Collecting Area
     _plural: Collecting Areas
