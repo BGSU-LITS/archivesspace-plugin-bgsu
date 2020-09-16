@@ -1,7 +1,4 @@
 <% unless @facets.blank? %>
-<h2 class="sidebar-title"><%= t('search_results.filter.add')%>: </h2>
-<dl id="facets">
-
   <%
     preferred_facet_order = %w(repository primary_type agents subjects langcode)
     ordered_facet_types = @facets.keys.sort{|a,b|
@@ -18,6 +15,7 @@
   %>
 
   <% ordered_facet_types.each do |type| %>
+    <% next if ['langcode', 'child_container_u_sstr'].include?(type) %>
     <% h = @facets.fetch(type, false) %>
     <% next unless h %>
     <dt><%= t("search_results.filter.#{type}") %></dt>
@@ -32,9 +30,7 @@
       <dd>
         <a href="<%= app_prefix("#{@page_search}&filter_fields[]=#{type}&filter_values[]=#{CGI.escape(v)}") %>"
            rel="nofollow"
-           title="<%= t('search_results.filter_by')%> '<%= get_pretty_facet_value(type,v) %>'">
-          <%= get_pretty_facet_value(type,v) %>
-        </a>
+           title="<%= t('search_results.filter_by')%> '<%= get_pretty_facet_value(type,v) %>'"><%= get_pretty_facet_value(type,v) %></a>
         <span class="recordnumber"><%= ct %></span>
       </dd>
     <% end %>
@@ -45,5 +41,4 @@
     <% end %>
     <span class="type-spacer">&nbsp;</span>
   <% end %>
-</dl>
 <% end %>

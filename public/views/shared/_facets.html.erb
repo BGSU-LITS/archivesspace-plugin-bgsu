@@ -70,4 +70,10 @@
  </div>
 
 <% end %>
-<%= render partial: 'shared/only_facets' %>
+<% only_facets = render partial: 'shared/only_facets' %>
+<% unless only_facets.strip.empty? %>
+<h2 class="sidebar-title"><%= t('search_results.filter.add')%>: </h2>
+<dl id="facets">
+<%= only_facets %>
+</dl>
+<% end %>
