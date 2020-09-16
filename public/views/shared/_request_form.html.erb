@@ -1,0 +1,57 @@
+At this time, access to this collection requires an appointment.
+
+<% bib = @result['json'] && @result['json']['user_defined'] && @result['json']['user_defined']['string_1'] %>
+<% if @result.resolved_repository || bib %>
+To request access to this collection, please
+<% if @result.resolved_repository %>
+contact the
+<%= link_to @result.resolved_repository.fetch('name'), app_prefix(repository_base_url(
+    "uri" => @result.resolved_repository.fetch('uri'),
+    "slug" => @result.resolved_repository.fetch('slug') { |s| nil }
+)) %><% if bib %> or <% else %>.<% end %>
+<% end %>
+<% if bib %> press the <em>Schedule for Use</em> button in the <a href="http://maurice.bgsu.edu/record=<%= bib %>">collection’s catalog record</a>.<% end %>
+<% end %>
+
+Please note that the collection may be subject to certain access or use restrictions as indicated in the <em>Conditions Governing Access</em> and <em>Conditions Governing Use</em> notes of this finding aid.
+
+<% if false %>
+<%= form_tag(app_prefix("fill_request"), method: 'post', :id => 'request_form') do %>
+  <%= render partial: 'shared/request_hiddens' %>
+  <div  id="request">
+    <div class="form-group required ">
+      <%= label_tag(:user_name, "#{t('request.user_name')} #{t('request.required')}" ,  :class => 'sr-only') %>
+      <div class="input-group">
+        <%= text_field_tag :user_name, nil, :placeholder => t('request.user_name'), :class => "form-control"%>
+        <div class="input-group-addon">
+          <span class="required aria-hidden"><%= t('request.required') %></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group required ">
+      <%= label_tag(:user_email, "#{t('request.user_email')} #{t('request.required')}",  :class => 'sr-only') %>
+      <div class="input-group">
+        <%= text_field_tag :user_email, nil, :type => 'email', :placeholder => t('request.user_email'), :class => 'form-control' %>
+        <div class="input-group-addon">
+          <span class="required aria-hidden"><%= t('request.required') %></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group ">
+      <%= label_tag(:date, t('request.date'),  :class => 'sr-only') %>
+      <%= text_field_tag :date, nil, :placeholder => t('request.date'), :class => 'form-control' %>
+    </div>
+    <div class="form-group ">
+      <%= label_tag(:note, t('request.note'),  :class => 'sr-only') %>
+      <%= text_area_tag :note, nil, :rows=> "3", :cols => "25", :placeholder => t('request.note'), :class => 'form-control' %>
+    </div>
+    <div class="form-group honeypot">
+      <span class="aria-hidden">
+        <%= label_tag :comment %>
+        <%= text_field_tag :comment, nil, tabindex: '-1', :class => 'form-control'%>
+      </span>
+    </div>
+    <button type="submit" class="btn btn-primary action-btn noscript"><%= t('request.submit') %></button>
+  </div>
+<% end %>
+<% end %>
