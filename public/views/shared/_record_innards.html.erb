@@ -1,6 +1,6 @@
 <!-- Look for '_inherited' and '*_inherited' properties -->
-<% non_folder = %w(scopecontent summary bioghist langmaterial accessrestrict userestrict) %>
-<% folder = %w(arrangement odd note phystech physloc otherfindaid custodhist acqinfo appraisal accruals originalsloc altformavail extent separatedmaterial relatedmaterial note_bibliography materialspec physdesc inscription physfacet dimensions edition fileplan legalstatus processinfo note_index) %>
+<% non_folder = %w(scopecontent summary bioghist accessrestrict userestrict langmaterial) %>
+<% folder = %w(arrangement fileplan physdesc phystech materialspec physfacet dimensions extent physloc originalsloc altformavail separatedmaterial relatedmaterial acqinfo custodhist appraisal accruals processinfo note otherfindaid odd legalstatus edition inscription note_bibliography note_index) %>
 <div class="upper-record-details">
     <% over = @result.note('abstract') %>
     <% if over.blank?
