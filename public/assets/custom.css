@@ -103,7 +103,7 @@ button.subject {
 }
 
 /* Restyle generic buttons. */
-.btn.btn-default {
+#content .btn.btn-default {
     background: #fff;
     border: 1px solid #ccc;
     color: #7f3f2f;
@@ -111,8 +111,8 @@ button.subject {
     text-decoration: none;
 }
 
-.btn.btn-default:hover,
-.btn.btn-default:focus {
+#content .btn.btn-default:hover,
+#content .btn.btn-default:focus {
     color: #4f2c1d;
 }
 
