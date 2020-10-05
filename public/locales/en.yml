@@ -13,15 +13,11 @@ en:
     welcome_page_title: Welcome
     finding_head: Not Finding What You’re Looking For?
     finding_message: |
-      <p>We are still in the process of making all our collection finding aids
-      available on this site. If you’re not finding what you’re looking for
-      here, we encourage you to search our comprehensive
-      <a href="https://lib.bgsu.edu/finding_aids/">legacy Finding Aids site</a>,
-      which still contains the entirety of our collection finding aids and will
-      remain available until the migration to this site has been completed. If
-      you still cannot locate a particular finding aid or have any further
-      questions regarding information about our collections, please contact the
-      appropriate <a href="/archives/repositories">repository</a>.</p>
+      <p>Please note that we are still transferring our finding aids to this
+      site. As we do so, we encourage you to also search our
+      <a href="https://lib.bgsu.edu/finding_aids/">legacy Finding Aids site</a>.
+      If you have further questions, please contact the appropriate
+      <a href="/archives/repositories">repository</a>.</p>
     requesting_head: Requesting Materials
     requesting_message: |
       <p>Each finding aid contains a link to request materials from the
