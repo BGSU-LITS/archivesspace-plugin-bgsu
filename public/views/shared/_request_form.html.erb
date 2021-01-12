@@ -1,6 +1,16 @@
 At this time, access to this collection requires an appointment.
 
-<% bib = @result['json'] && @result['json']['user_defined'] && @result['json']['user_defined']['string_1'] %>
+<% 
+bib = @result['json'] && @result['json']['user_defined'] && @result['json']['user_defined']['string_1'] 
+
+if bib
+  bib_match = bib.match /^b[0-9]{7}/
+
+  if bib_match
+    bib = bib_match[0] + "a"
+  end
+end
+%>
 <% if @result.resolved_repository || bib %>
 To request access to this collection, please
 <% if @result.resolved_repository %>
