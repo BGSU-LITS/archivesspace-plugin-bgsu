@@ -275,3 +275,25 @@ span.required {
 .panel-body {
     padding: 20px 15px 0 15px;
 }
+
+/* Move link to search video. */
+.search > h2 {
+    float: left;
+}
+
+.search > .search-video {
+    float: left;
+    line-height: 3;
+    padding-left: 20px;
+}
+
+.search > form {
+    clear: both;
+}
+
+/* Fix height of plus and minus buttons. */
+#content .plusminus .btn {
+    line-height: 1.428571429;
+}
+
+

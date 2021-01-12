@@ -6,6 +6,9 @@
   <a name="search" id="search"></a>
   <% if show_header %>
   <h<%= header_size %>><%= title.nil? ? t('actions.search_header') : t('actions.search_in', :type => title) %></h<%= header_size %>>
+    <% if title.nil? %>
+      <div class="search-video"><a href="https://www.youtube.com/watch?v=gKcLcG5FCRE">Video: How to Navigate Your Search</a></div>
+    <% end %>
   <% end %>
   <% @search = Search.new unless defined?(@search) %>
   <%= form_tag(app_prefix("#{search_url}"), method: 'get', :id => 'advanced_search') do %>
