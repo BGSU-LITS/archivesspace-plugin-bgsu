@@ -25,10 +25,9 @@
       <%= render partial: 'shared/pagination', locals: {:pager  => @pager, :pager_id => 'paging_bottom'}  %>
     <% end %>
   </div>
-    <% facets = render partial: 'shared/facets' %>
-    <% unless facets.strip.empty? %>
+    <% unless @results.blank? || @results['total_hits'] == 0 || @facets.blank? %>
   <div class="sidebar-left">
-      <%= facets %>
+      <%= render partial: 'shared/facets' %>
   </div>
     <% end %>
 </div>
