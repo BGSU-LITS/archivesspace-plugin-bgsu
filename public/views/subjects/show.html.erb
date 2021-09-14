@@ -31,19 +31,10 @@
     <% end %>
     <%= render partial: 'shared/display_notes' %>
 
-     <h2><%= t('found', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')}) %>:</h2>
-<div class="sidebar">
-  <div>
-  <% unless @results.blank? || @results['total_hits'] == 0 %>
-         <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
-         <% @results.records.each do |result| %>
-           <%= render partial: 'shared/result', locals: {:result => result, :props => {:full => false}} %>
-         <% end %>
-         <%= render partial: 'shared/pagination', locals: {:pager  => @pager, :pager_id => 'paging_bottom'}  %>
-
-   <% end %>
-
+    <%# FOUND IN SECTION %>
+    <%= render partial: 'shared/results', locals: {:results => @results, :pager => @pager} %>
    </div>
+
   <div class="sidebar-left">
      <%= render partial: 'shared/facets' %>
         <% if !(terms = ASUtils.wrap(@result['json']['terms'])).empty? %>
