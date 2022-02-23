@@ -10,14 +10,17 @@
 <div id="lead_graph"><%= lead.html_safe %></div>
 <% end %>
 
-<% if url && url!= "http://url.unspecified" %>
-<div class="website">
-  <a href="<%= url %>"><%= url  %></a>
-</div>
-<% end %>
-
 <div class='contact_info'>
   <h2><%= t('contact') %></h2>
+
+<% if url && url!= "http://url.unspecified" %>
+<div class="website">
+  <strong><a href="<%= url %>"><%= info['top']['name'] %></a></strong>
+</div>
+<% else %>
+<strong><%= info['top']['name'] %></strong>
+<% end %>
+
 <% if info["address"].present? %>
   <span class="street">
     <%= info["address"].join("<br>").html_safe %>

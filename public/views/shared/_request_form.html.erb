@@ -1,7 +1,23 @@
-At this time, access to this collection requires an appointment.
+<%
+name = nil
+email = nil
+phone = nil
 
-<% 
-bib = @result['json'] && @result['json']['user_defined'] && @result['json']['user_defined']['string_1'] 
+if @result.resolved_repository
+  name = @result.resolved_repository.fetch('name')
+  email = @result.resolved_repository.dig('agent_representation', '_resolved', 'agent_contacts', 0, 'email')
+  telephones = @result.resolved_repository.dig('agent_representation', '_resolved', 'agent_contacts', 0, 'telephones')
+
+  telephones.each do |telephone|
+    if !telephone['number'].blank?
+      if !telephone['number_type'].blank? && telephone['number_type'].strip.upcase != 'FAX'
+        phone = telephone['number']
+      end
+    end
+  end
+end
+
+bib = @result['json'] && @result['json']['user_defined'] && @result['json']['user_defined']['string_1']
 
 if bib
   bib_match = bib.match /^b[0-9]{7}/
@@ -11,21 +27,12 @@ if bib
   end
 end
 %>
-<% if @result.resolved_repository || bib %>
-To request access to this collection, please
-<% if @result.resolved_repository %>
-contact the
-<%= link_to @result.resolved_repository.fetch('name'), app_prefix(repository_base_url(
-    "uri" => @result.resolved_repository.fetch('uri'),
-    "slug" => @result.resolved_repository.fetch('slug') { |s| nil }
-)) %><% if bib %> or <% else %>.<% end %>
-<% end %>
-<% if bib %> press the <em>Schedule for Use</em> button in the <a href="http://maurice.bgsu.edu/record=<%= bib %>">collection’s catalog record</a>.<% end %>
-<% end %>
 
-Please note that the collection may be subject to certain access or use restrictions as indicated in the <em>Conditions Governing Access</em> and <em>Conditions Governing Use</em> notes of this finding aid.
+Unless otherwise noted in this finding aid, this collection is available for use<% if name %> at the <%= name %><% end %> any time during our normal hours of operation. While no appointment is required, we recommend requesting access to the collection in advance of your visit<% if email %> <a href="mailto:<%= email %>">via email</a><% if phone or bib %> or<% end %><% end %><% if phone %> by phone at <%= phone %><% if bib %> or<% end %><% end %><% if bib %> using the <em>Schedule for Use</em> button in the <a href="http://maurice.bgsu.edu/record=<%= bib %>">collection’s catalog record</a><% end %>.
 
 <% if false %>
+Please note that the collection may be subject to certain access or use restrictions as indicated in the <em>Conditions Governing Access</em> and <em>Conditions Governing Use</em> notes of this finding aid.
+
 <%= form_tag(app_prefix("fill_request"), method: 'post', :id => 'request_form') do %>
   <%= render partial: 'shared/request_hiddens' %>
   <div  id="request">

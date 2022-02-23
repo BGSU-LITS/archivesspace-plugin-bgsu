@@ -2,14 +2,15 @@
 
 <div id="main-content" class="agents">
 
-  <div class="row" id="info_row">
-    <div class="information col-sm-7">
+  <div id="info_row">
+    <div class="information">
       <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
     </div>
-    <div class="page_actions col-sm-5 right">
+    <div class="page_actions right">
       <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
     </div>
   </div>
+
 
     <%= render partial: 'dates', locals: {:result => @result} %>
     <%= render partial: 'parallel_names', locals: {:result => @result} %>
@@ -24,6 +25,7 @@
     <%= render partial: 'subjects', locals: {:result => @result, subject_label: I18n.t('agent_place._plural'), subject_type: 'agent_places'} %>
     <%= render partial: 'subjects', locals: {:result => @result, subject_label: I18n.t('agent_topic._plural'), subject_type: 'agent_topics'} %>
     <%= render partial: 'shared/languages', locals: {:result => @result} %>
+    <%= render partial: 'shared/metadata_rights_declarations', locals: {:result => @result} %>
     <%= render partial: 'snac', locals: {:result => @result} %>
     <%# FOUND IN SECTION %>
     <%= render partial: 'shared/results', locals: {:results => @results, :pager => @pager} %>

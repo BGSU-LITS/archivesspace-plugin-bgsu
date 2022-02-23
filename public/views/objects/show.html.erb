@@ -1,17 +1,16 @@
 <a name="main" title="<%= t('internal_links.main') %>"></a>
 <div id="main-content" class="row objects">
-  <div class="row" id="info_row">
-    <div class="information col-sm-7">
+  <div id="info_row">
+    <div class="information">
       <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+      <%= render partial: 'shared/breadcrumbs' %>
     </div>
-    <div class="page_actions col-sm-5 right">
+    <div class="page_actions right">
     <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath, :cite => @result.cite } %>
     </div>
   </div>
 
-   <%= render partial: 'shared/breadcrumbs' %>
-
-<h2><%= t('archival_object._singular') %></h2>
+  <h2><%= t('archival_object._singular') %></h2>
 
   <div class="row" id="notes_row">
    <div class="col-sm-9">
@@ -32,7 +31,8 @@
           heading_text = t('cont_arr')
         end
       %>
-      <% if AppConfig[:pui_search_collection_from_archival_objects] %>
+
+      <% if AppConfig[:pui_search_collection_from_archival_objects] && @result.instance_of?(ArchivalObject) %>
         <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result.resource_uri, :action_text => "#{t('actions.search_in', :type => t('resource._singular'))}"} %>
       <% end %>
       <%= render partial: 'shared/children_tree', :locals => {:heading_text => heading_text, :root_node_uri => @result.root_node_uri, :current_node_uri => @result.uri} %>

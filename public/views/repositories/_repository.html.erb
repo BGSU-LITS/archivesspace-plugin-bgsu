@@ -23,9 +23,7 @@
 	    <%= result['parent_institution_name'] %>
 	  </div>
 	  <% end %>
-	  <% if full %>
-	  <%= render partial: 'repositories/full_repo', locals: {:info => result['repo_info'], :url => result['url']} %>
-	 <% else %>
+	  <% if !full %>
 	 <div><strong>Number of <%= t('resource._plural') %>:</strong> <%= result['count'] %></div>
 	 <% end %>
 	</div>

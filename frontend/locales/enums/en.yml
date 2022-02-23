@@ -32,14 +32,16 @@ en:
       terabytes: Terabytes
       volumes: Volumes
     collection_management_processing_status:
-      new: New
-      in_progress: In Progress
       completed: Completed
+      in_progress: In Progress
+      new: New
+      none: Not specified
       unprocessed: Unprocessed
     container_type:
       box: Box
       carton: Carton
       case: Case
+      container: Container
       drawer: Drawer
       envelope: Envelope
       flat_file: Flat File

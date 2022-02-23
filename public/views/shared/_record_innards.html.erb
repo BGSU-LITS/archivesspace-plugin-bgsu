@@ -29,19 +29,19 @@
     <% if @result.agents && Array(@result.agents['creator']).length > 0 %>
       <% creators = @result.agents['creator'].reject{|r| r['_inherited']} %>
       <% unless creators.empty? %>
-        <%= render partial: 'shared/agents_list', locals: {:list => {'creator' => creators}} %>
+        <%= render partial: 'shared/agents_list', locals: {:list => {'creator' => creators}, :heading_size => 'h3'} %>
       <% end %>
     <% end %>
 
     <% non_folder.each do |type| %>
-      <% (@result.notes[type] || []).each do |note_struct| %>
+      <% (@result.notes && @result.notes[type] || []).each do |note_struct| %>
        <% unless note_struct['note_text'].blank? %>
         <%= render partial: 'shared/single_note', locals: {:type => type, :note_struct => note_struct}   %>
        <% end %>
       <% end %>
     <% end %>
 
-    <% unless @result.notes.include?('langmaterial') || @result.lang_materials.blank? %>
+    <% unless @result.notes && @result.notes.include?('langmaterial') || @result.lang_materials.blank? %>
       <h3><%= t('resource._public.lang') %></h3>
        <% @result.lang_materials.each do |lang_material| %>
         <p class="language"><%= inheritance(lang_material['_inherited']).html_safe %>
@@ -49,6 +49,8 @@
 	</p>
       <% end %>
     <% end %>
+
+    <%= render partial: 'shared/metadata_rights_declarations', locals: {:result => @result} %>
 
     <% if @result.is_a?(Accession) && @result.inventory %>
       <h3><%= t('accession._public.section.inventory') %></h3>
@@ -67,7 +69,7 @@
 	<%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.additional'),
 	      :p_id => 'add_desc', :p_body => x } %>
 	<% end %>
-        <% if @result.kind_of?(Accession) && !@result.deaccessions.blank? %>
+        <% if (@result.kind_of?(Accession) || @result.kind_of?(Resource)) && !@result.deaccessions.blank? %>
           <% x = render partial: 'shared/present_list', locals: {:list =>  @result.deaccessions.collect{|d| d.fetch('description')}, :list_clss => 'deaccessions'} %>
           <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('deaccessions'), :p_id => 'deaccessions_list', :p_body => x} %>
         <% end %>
@@ -120,6 +122,10 @@
         <% if @result.kind_of?(Accession) && !@result.related_resources.blank? %>
           <% x = render partial: 'accessions/related_resources', locals: {:resources => @result.related_resources} %>
           <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('related_resources'), :p_id => 'related_resources_list', :p_body => x} %>
+        <% end %>
+        <% if @result.kind_of?(Accession) && !@result.related_accessions.blank? %>
+          <% y = render partial: 'accessions/related_accessions', locals: {:accessions => @result.related_accessions} %>
+          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('related_accessions'), :p_id => 'related_accessions_list', :p_body => y} %>
         <% end %>
       </div>
       <% ASUtils.find_local_directories('public/views/_lower_record_innards.html.erb').each do |template| %>
