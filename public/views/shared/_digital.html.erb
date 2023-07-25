@@ -1,7 +1,7 @@
 <%# expects 'dig_objs' as an array of hashes %>
 
 <% unless dig_objs.blank? %>
-<div class="images">
+<div class="images clearfix">
   <% dig_objs.each do |d_file| %>
     <% if !d_file['out'].blank? %>
       <% if d_file['thumb'].blank? %>
