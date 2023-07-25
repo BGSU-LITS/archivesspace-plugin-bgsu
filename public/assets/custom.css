@@ -150,15 +150,6 @@ button.subject {
     margin-bottom: 4px;
 }
 
-/* Restyle infinite records. */
-.infinite-record-wrapper {
-    height: 627px;
-}
-
-.infinite-record-container {
-    padding-right: 15px;
-}
-
 /* Restyle tree widget. */
 .largetree-container {
     background: transparent;
@@ -178,6 +169,10 @@ button.subject {
     vertical-align: top;
 }
 
+.largetree-container .table.root {
+    margin-bottom: 0;
+}
+
 .largetree-container .table.root div.table-row,
 .largetree-container .table.root div.table-row:nth-of-type(2n+1) {
     background-color: transparent;
@@ -188,7 +183,43 @@ button.subject {
     padding-right: 7px;
 }
 
-/* Remove additional styles from tabs. */
+/* Style tabs. */
+#tabs {
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    font-size: 1.1em;
+    flex-wrap: wrap;
+    line-height: 1.25;
+    margin: 0 0 20px 0;
+    padding: 0;
+}
+
+#tabs a {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-top-left-radius: 0.375rem;
+    border-top-right-radius: 0.375rem;
+    margin: 0 0 -1px -1px;
+    padding: 10px 20px 6px 20px;
+}
+
+#tabs a:active,
+#tabs a:focus,
+#tabs a:hover {
+    border-color: #ddd;
+    z-index: 3;
+}
+
+#tabs a[href="#"] {
+    background: #fff;
+    border-color: #ddd;
+    border-bottom-color: #fff;
+    color: inherit;
+    font-weight: 700;
+    text-decoration: none;
+    z-index: 2;
+}
+
 .nav-tabs {
     border-bottom: none;
 }
@@ -201,10 +232,18 @@ button.subject {
     margin: 0 0 20px 0;
 }
 
+.note-content > p:last-child {
+    margin-bottom: 0;
+}
+
 /* Move digital objects to be their own left aligned row. */
+.images {
+    margin: 0 0 20px 0;
+}
+
 .objectimage {
     float: left;
-    margin: 0 20px 20px 0;
+    margin: 0 10px 0 0;
     width: auto;
 }
 
@@ -220,7 +259,12 @@ span.required {
 }
 
 /* Fix issues with resizable sidebars. */
+html {
+  scroll-padding-top: 24px;
+}
+
 #sidebar.resizable-sidebar {
+    margin-bottom: 8px;
     padding: 10px;
 }
 
@@ -235,12 +279,49 @@ span.required {
     margin: 0 15px;
 }
 
+#sidebar h2 {
+    font-size: 1.1em;
+    line-height: 1.25;
+    font-weight: 700;
+}
+
 #sidebar .resizable-sidebar-handle {
-    display: block;
+    display: none;
+}
+
+@media (min-width: 992px) {
+    #sidebar .resizable-sidebar-handle {
+        display: block;
+    }
+}
+
+#sidebar .search {
+    margin-top: 5px;
 }
 
 .has-resizable-content {
     margin-right: 0;
+}
+
+.has-resizable-content-left {
+  margin-left: 0;
+  margin-right: -15px;
+}
+
+@media (min-width: 992px) {
+  .has-resizable-content-left #sidebar.resizable-sidebar {
+    padding-left: 10px;
+    padding-right: 18px;
+    position: sticky;
+    top: 20px;
+  }
+
+  .has-resizable-content-left #sidebar.resizable-sidebar .resizable-sidebar-handle {
+    border-left: 1px solid #CCC;
+    border-right: none;
+    left: auto;
+    right: 0;
+  }
 }
 
 /* Restyle search statement. */
@@ -274,11 +355,6 @@ span.required {
     width: auto;
 }
 
-/* Add space after heading following tab controls. */
-#tabs + h2 {
-    margin-bottom: 20px;
-}
-
 /* Make padding of panels more consistent. */
 .panel-body {
     padding: 20px 15px 0 15px;
@@ -304,10 +380,14 @@ span.required {
     padding-right: 0;
 }
 
-.indentor > .expandme[aria-hidden]:after {
+.indentor > .expandme[aria-hidden] {
+    visibility: visible !important;
+}
+
+.indentor > .expandme[aria-hidden] > .expandme-icon::before {
     content: "\2022";
     font-size: 20px;
-    visibility: visible;
+    line-height: 0;
 }
 
 /* Align search row elements to bottom. */
@@ -385,4 +465,45 @@ u.emph {
 
 .emph.smcaps {
     font-variant: small-caps;
+}
+
+/* Improve styling of infinite records. */
+.infinite-record-record {
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 19px, #ccc 20px);
+}
+
+.infinite-record-record:last-child {
+    margin-bottom: 8px;
+}
+
+.infinite-item {
+    display: flow-root;
+    margin: 0;
+    padding: 10px 0 0 0;
+}
+
+.infinite-item.infinite-item-indent-0 {
+    padding: 0;
+}
+
+#content .infinite-item .information {
+    margin: 0;
+    padding: 0;
+}
+
+.infinite-item .subnote {
+    margin: 10px 0;
+    padding: 0;
+}
+
+.infinite-item dl.dl-horizontal {
+    margin: 10px 0;
+    padding: 0;
+}
+
+.infinite-item dl.dl-horizontal dt,
+.infinite-item dl.dl-horizontal dd {
+    line-height: inherit;
+    margin: 0;
+    padding: 0;
 }

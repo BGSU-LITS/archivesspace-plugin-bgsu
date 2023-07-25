@@ -1,0 +1,74 @@
+<%= javascript_include_tag 'largetree' %>
+<%= javascript_include_tag 'tree_renderer' %>
+
+<h2><%= heading_text %></h2>
+<div class="infinite-tree-view largetree-container" id='tree-container'></div>
+
+<script>
+    function tree_id_from_hash() {
+        if (!location.hash) {
+            return;
+        }
+
+        var tree_id = location.hash.replace(/^#(tree::)?/, "");
+
+        if (TreeIds.parse_tree_id(tree_id)) {
+            return tree_id;
+        } else {
+            return null;
+        }
+    }
+
+    <% if defined?(@ordered_records) %>
+    var ordered_records = [
+        <% @ordered_records.each do |record| %>
+        '<%= record['ref'] %>',
+        <% end %>
+    ];
+    <% end %>
+
+    var root_uri = '<%= app_prefix(root_node_uri) %>';
+    var should_link_to_record = typeof ordered_records === 'undefined';
+
+    var tree = new LargeTree(new TreeDataSource(root_uri + '/tree'),
+        $('#tree-container'),
+        root_uri,
+        true,
+        new SimpleRenderer(should_link_to_record),
+        function() {
+            var tree_id = tree_id_from_hash() ||
+                TreeIds.uri_to_tree_id('<%= current_node_uri %>');
+            tree.setCurrentNode(tree_id, function() {
+                // scroll to selected node
+                tree.elt.scrollTo('#'+tree_id, 0, {offset: -50});
+            });
+        },
+        function(current_node, tree) {
+          tree.expandNode(current_node);
+        });
+
+    if (!should_link_to_record) {
+        tree.addPopulateWaypointHook(function () {
+            $('.largetree-container a.record-title').each(function () {
+                var href = $(this).attr('href');
+
+                if (href.startsWith('#')) {
+                    var parent = $(this).parents('.largetree-node').first();
+                    var count = ordered_records.indexOf(parent.data('uri'));
+                    var page = Math.floor(count / 1000) + 1;
+                    var uri = root_uri + '/collection_organization';
+
+                    if (page) {
+                        if (ordered_records.length > 1000) {
+                            uri += '?page=' + page;
+                        }
+
+                        uri += href;
+                    }
+
+                    $(this).attr('href', uri);
+                }
+            });
+        });
+    }
+</script>

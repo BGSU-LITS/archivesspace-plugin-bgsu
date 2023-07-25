@@ -40,29 +40,27 @@ end
 
 <%
 header_size = (props.fetch(:full, false) ? 1 : 3) if header_size.nil?
-
-title = result.display_string;
-
-if result.container_summary_for_badge
-    title = result.container_summary_for_badge + ": " + title
+title = result.display_string || result.title
+if result.respond_to?(:parse_full_title)
+  title = result.parse_full_title
 end
 %>
 <h<%= header_size %>>
-  <% if !props.fetch(:full,false) %>
+  <% if !props.fetch(:full,false) && !props.fetch(:infinite_item,false) %>
     <a class="record-title" href="<%= app_prefix(url) %>" title="View <%= title %>">
-      <%== props.fetch(:infinite_item, false) ? result.parse_full_title(true) : result.display_string %>
+      <%== title %>
     </a>
   <% else %>
-    <%== result.display_string %>
+    <%== title %>
   <% end %>
 </h<%= header_size %>>
 
 
 <div class="badge-and-identifier clearfix">
-  <div class="record-type-badge <%= (result.primary_type.start_with?('agent') ? 'agent' : result.primary_type) %>">
-    <i class="<%= icon_for_type(result.primary_type) %>"></i>&#160;<%= badge_label %> <% if result.container_summary_for_badge %> &mdash; <%= result.container_summary_for_badge %><% end %>
+  <div class="record-type-badge <%= (result.primary_type && result.primary_type.start_with?('agent') ? 'agent' : result.primary_type) %>">
+    <i class="<%= icon_for_type(result.primary_type || "resource") %>"></i>&#160;<%= badge_label %> <% if result.container_summary_for_badge %> &mdash; <%= result.container_summary_for_badge %><% end %>
   </div>
-  <% comp_id = display_component_id(result, props.fetch(:infinite_item, false)) %>
+  <% comp_id = display_component_id(result, false)  %>
   <% unless comp_id.blank? %>
     <div class="identifier">
       <span class="id-label"><%= t('search_sorting.identifier') %>:</span>&#160;<span class="component"><%= comp_id %></span>

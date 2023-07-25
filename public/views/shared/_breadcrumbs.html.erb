@@ -1,10 +1,11 @@
-<% if defined?(@context) && !@context.blank? %>
+<% context ||= @context %>
+<% if !context.blank? %>
 	<nav aria-label="breadcrumb">
 	  <ol class="list-breadcrumb">
 	<li><a href="<%= app_prefix('/') %>"><%= t('brand.title') %></a>
-	<% @context.each do |bread| %>
+	<% context.each do |bread| %>
 	<% if bread[:crumb] %>
-	<% if bread[:uri].blank? %></li><li aria-current="page"><%= process_mixed_content(bread[:crumb]).html_safe %>
+	<% if bread.equal?(context.last) || bread[:uri].blank? %></li><li aria-current="page"><%= process_mixed_content(bread[:crumb]).html_safe %>
 	  <% else %></li><li><a href="<%=app_prefix(bread[:uri]) %>"><%= process_mixed_content(bread[:crumb]).html_safe %></a>
 	  <% end %>
 	<% end %>

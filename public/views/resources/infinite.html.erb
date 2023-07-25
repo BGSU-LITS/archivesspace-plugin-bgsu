@@ -11,77 +11,50 @@
   </div>
 </div>
 
-<%= render partial: 'resources/resource_alltabs' %>
-
-<h2><%= t('actions.hierarch') %></h2>
-
 <%= javascript_include_tag 'treesync' %>
-<%= javascript_include_tag 'infinite_scroll' %>
-<%= javascript_include_tag 'largetree' %>
-<%= javascript_include_tag 'tree_renderer' %>
+<%= javascript_include_tag "#{@base_url}/assets/resizable_sidebar_left.js" %>
 
 <div class="row">
-  <div class="infinite-record-wrapper col-sm-9">
-      <div class="infinite-record-container">
-          <div class="root">
-              <% waypoint_size = 20 %>
-              <% @ordered_records.each_slice(waypoint_size).each_with_index do |refs, i| %>
-                  <div class="waypoint" data-waypoint-number="<%= i %>" data-waypoint-size=<%= waypoint_size %> data-uris="<%= refs.map {|r| r['ref']}.join(';') %>">&nbsp;</div>
-              <% end %>
-          </div>
-      </div>
-  </div>
-
-  <div id="sidebar" class="col-sm-3 resizable-sidebar infinite-tree-sidebar">
+  <div id="sidebar" class="col-sm-3 resizable-sidebar">
   <% if AppConfig[:pui_search_collection_from_collection_organization] %>
     <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result['uri'], :action_text => t('actions.search_in', :type => t('resource._singular'))} %>
   <% end %>
-  <div class="infinite-tree-view largetree-container" id='tree-container'></div>
+  <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('cont_arr'), :root_node_uri => @result.uri, :current_node_uri => @result.uri} %>
+  </div>
+
+  <div class="col-sm-9">
+      <div>
+          <%= render partial: 'resources/resource_alltabs' %>
+          <h2><%= t('actions.hierarch') %></h2>
+          <% if @paging['last_page'] > 1 %>
+          <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
+          <% end %>
+          <div class="root">
+              <% @results.records.each do |record| %>
+                  <div class="infinite-record-record">
+                    <% @result = record %>
+                    <%= render partial: 'infinite_item' %>
+                  </div>
+              <% end %>
+          </div>
+          <% if @paging['last_page'] > 1 %>
+          <%= render partial: 'shared/pagination', locals: {:pager  => @pager, :pager_id => 'paging_bottom'}  %>
+          <% end %>
+      </div>
   </div>
 </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
- var syncer = new TreeSync('<%= params[:rid]%>');
- window.syncer = syncer;
+window.addEventListener('hashchange', function() {
+  var tree_id = tree_id_from_hash();
 
- var scroll = new InfiniteScroll('<%= url_for(:action => :show) %>/infinite',
-                                 $('.infinite-record-wrapper'),
-                                 <%= @ordered_records.length %>,
-                                 function() {
-                                     syncer.infiniteScrollIsReady(scroll);
-                                 });
+  if (tree_id) {
+    tree.setCurrentNode(tree_id);
+  }
+});
 
- /* NOTE: This just here for debugging... */
- window.scroller = scroll;
-
- var tree = new LargeTree(new TreeDataSource('<%= url_for(:action => :show) %>/tree'),
-                          $('.infinite-tree-view'),
-                          '<%= @root_uri %>',
-                          true,
-                          new SimpleRenderer(),
-                          function() {
-                              syncer.treeIsReady(tree);
-                          },
-                          function(current_node, tree) {
-                            tree.expandNode(current_node);
-                          });
-
-window.tree = tree;
+$('.note-content').each(function () {
+  $(this).readmore(160);
 });
 </script>
-
-<script>
-  // handle clicks on tree items
-  $('.infinite-record-wrapper').on('click', '.infinite-record-record a.record-title', function(event) {
-      // update the hash so browser-back returns user to the record they clicked
-      var $record = $(this).closest('.infinite-record-record');
-      var uri = $record.data('uri');
-      var tree_id = TreeIds.uri_to_tree_id(uri);
-      location.hash = '#tree::'+tree_id;
-
-      return true;
-  });
-</script>
-
 <%= render partial: 'shared/modal_actions' %>
