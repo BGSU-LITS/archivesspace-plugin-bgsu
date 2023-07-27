@@ -10,6 +10,7 @@
     <%= render partial: 'shared/page_actions', locals: {:record => @result, :title =>  @result.display_string, :url => request.fullpath, :cite => @result.cite } %>
   </div>
 </div>
+<%= render partial: 'shared/modal_actions' %>
 
 <%= javascript_include_tag 'treesync' %>
 <%= javascript_include_tag "#{@base_url}/assets/resizable_sidebar_left.js" %>
@@ -57,4 +58,3 @@ $('.note-content').each(function () {
   $(this).readmore(160);
 });
 </script>
-<%= render partial: 'shared/modal_actions' %>
