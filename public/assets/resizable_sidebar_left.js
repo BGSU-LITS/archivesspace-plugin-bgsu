@@ -3,8 +3,8 @@ ResizableSidebar.prototype.add_handle = function () {
 
     var $handle = $('<input>').attr('type', 'range');
     $handle.attr('value', 25);
-    $handle.attr('max', 76);
-    $handle.attr('min', 12);
+    $handle.attr('max', 75);
+    $handle.attr('min', 25);
     $handle.attr('aria-label', 'resizable sidebar handle');
     $handle.attr('id', 'accessible_slider');
     $handle.addClass('resizable-sidebar-handle');
@@ -27,8 +27,11 @@ ResizableSidebar.prototype.bind_events = function() {
         }
 
         var width = Math.min(
-            Math.max(e.clientX - self.$row.offset().left, 200),
-            self.$row.width() - 300
+            Math.max(
+                e.clientX - self.$row.offset().left,
+                self.$row.width() * self.$handle.attr('min') / 100
+            ),
+            self.$row.width() * self.$handle.attr('max') / 100
         );
 
         self.$sidebar.css('width', width);
@@ -37,15 +40,17 @@ ResizableSidebar.prototype.bind_events = function() {
         self.isResizing = false;
     });
 
-    // ANW-1316: Make resizable input slider work with keyboard commands alone
     $(document).on('keydown', function (e) {
         if (!self.isResizing) {
             return;
         }
 
         const width = Math.min(
-            Math.max(self.$row.width() * e.target.value / 100, 200),
-            self.$row.width() - 300
+            Math.max(
+                self.$row.width() * e.target.value / 100,
+                self.$row.width() * self.$handle.attr('min') / 100
+            ),
+            self.$row.width() * self.$handle.attr('max') / 100
         );
 
         self.$sidebar.css('width', width);

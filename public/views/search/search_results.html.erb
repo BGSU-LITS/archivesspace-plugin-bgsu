@@ -11,13 +11,15 @@
                                                                        ["#{t('search_results.filter.creators')}",'creators_text'],
                                                                        ["#{t('search_results.filter.subjects')}",'subjects_text'],
                                                                        ["#{t('search_results.filter.notes')}", 'notes'],
-                                                                       ["#{t('search_results.filter.identifier')}", 'four_part_id'] ],
+                                                                       ["#{t('search_results.filter.identifier')}", 'identifier'] ],
                                                     :header_size => '1',
                                                     :show_header => true } %>
   <% else %>
 
   <% if defined?(@results) %>
-    <h1><%= defined?(@search_title) ? @search_title : results_type %></h1>
+    <% heading = defined?(@search_title) ? @search_title : results_type %>
+    <h1><%= heading %></h1>
+    <% @context ||= [{:crumb => heading }] %>
     <%= render partial: 'shared/breadcrumbs' %>
   <% end %>
 
@@ -32,7 +34,7 @@
         <%= @search[:search_statement].html_safe %>
       <% end %>
 
-      <div id="refineSearchPanel" class="refinesearch" aria-hidden="true" style="display:none;">
+      <div id="refineSearchPanel" class="container refinesearch" aria-hidden="true" style="display:none;">
         <%= render partial: 'shared/search', locals: {:search_url => @base_search,
                                                       :title => t('archive._plural'),
                                                       :limit_options => [["#{t('actions.search')} #{t('search-limits.all')}",''],
@@ -43,19 +45,19 @@
                                                                          ["#{t('search_results.filter.creators')}",'creators_text'],
                                                                          ["#{t('search_results.filter.subjects')}",'subjects_text'],
                                                                          ["#{t('search_results.filter.notes')}", 'notes'],
-                                                                         ["#{t('search_results.filter.identifier')}", 'four_part_id'] ],
+                                                                         ["#{t('search_results.filter.identifier')}", 'identifier'] ],
                                                       :show_header => false } %>
       </div>
     </div>
   <% end %>
-<% end %>
+  <% end %>
 
 <% if defined?(@results) %>
-<div class="sidebar">
-  <div>
+<div class="bgsu_common_sidebar">
+  <div class="bgsu_common__flex_column">
     <a name="main" title="<%= t('internal_links.main') %>"></a>
     <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
-    <div class="row search-results"><div class="col-sm-12">
+    <div class="search-results bgsu_common__full"><div>
 
     <a name="searchresults" id="searchresults"></a>
 
@@ -67,7 +69,7 @@
   </div>
   <% facets = render partial: 'shared/facets' %>
   <% unless facets.strip.empty? %>
-  <div class="sidebar-left">
+  <div class="bgsu_common_sidebar_left">
     <a name="filter" title="<%= t('internal_links.filter') %>"></a>
     <%= facets %>
   </div>

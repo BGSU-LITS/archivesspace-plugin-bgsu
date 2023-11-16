@@ -1,67 +1,133 @@
-/* Reset link styles. */
-a, a:hover, a:focus {
-    color: inherit;
-    cursor: inherit;
-    text-decoration: inherit;
+#advanced_search .form-group {
+    margin-bottom: 1rem;
 }
 
-a:link, a:visited {
-    cursor: pointer;
+#advanced_search .form-group :is(input, select, textarea) {
+    width: 100%;
 }
 
-/* Reset font redefinitions. */
-h1, h2, h3, h4, h5, h6,
-.h1,
-.inline-label,
-.record-type-badge,
-.identifier .id-label,
-span.head {
-    font-family: inherit;
+#advanced_search .form-group select {
+    text-overflow: ellipsis;
 }
 
-/* Reset excessive borders, margins and padding. */
-#lead_graph,
-#whats-in-container,
-.contact_info,
-.recordrow,
-.search {
-    border: none;
-    margin: 20px 0;
-    padding: 0;
+#advanced_search .norepeat {
+    display: none;
 }
 
-.contact_info,
-.recordrow {
-    margin-top: 0;
+#advanced_search #search_row_0 .norepeat {
+    display: block;
 }
 
-#content,
-#info_row .list-breadcrumb,
-#main-content.accessions,
-#main-content.objects,
-.nav-page .sorter {
+#advanced_search #submit_search {
+    width: auto;
+}
+
+#content {
     margin: 0;
+}
+
+#facets ul {
+    margin: 0;
+}
+
+#facets .more-facets .less,
+#facets .more-facets .more {
+    margin: 0.5rem 0 0 2rem;
+}
+
+#lead_graph {
     padding: 0;
 }
 
-.list-inline > li,
-.record-type-badge,
+#main-content {
+    margin-bottom: 1rem;
+}
+
+#main-content.accessions,
+#main-content.objects {
+    padding: 0;
+}
+
+#sidebar.resizable-sidebar {
+    background: #f2f2f2;
+    border: none;
+    padding: 12px 0.75rem;
+    border-radius: 12px;
+}
+
+#sidebar.resizable-sidebar .resizable-sidebar-handle {
+    display: none;
+}
+
+@media (min-width: 992px) {
+    #sidebar.resizable-sidebar {
+        padding-left: calc(0.75rem + 11px);
+        padding-right: 0.75rem;
+    }
+
+    #sidebar.resizable-sidebar .resizable-sidebar-handle {
+        border-radius: 12px 0 0 12px;
+        display: block;
+        width: 11px;
+        background-position: center;
+    }
+
+    .has-resizable-content-left #sidebar.resizable-sidebar {
+        margin-left: 15px;
+        padding-left: 0.75rem;
+        padding-right: calc(0.75rem + 11px);
+    }
+
+    .has-resizable-content-left #sidebar.resizable-sidebar .resizable-sidebar-handle {
+        border-radius: 0 12px 12px 0;
+    }
+}
+
+#sidebar form {
+    margin: 0;
+    max-width: 100%;
+}
+
+#tabs {
+    margin-bottom: 1rem;
+}
+
+#whats-in-container {
+    border: none;
+    margin: 0 0 -0.5rem 0;
+    padding: 0;
+}
+
+#whats-in-container .btn.btn-default {
+    margin: 0 0.5rem 0.5rem 0;
+}
+
+.acc_holder {
+    margin-top: 1rem;
+}
+
+.alert {
+    color: inherit;
+    margin: 1rem 0;
+    padding: 12px .75rem;
+}
+
+.alert .close {
+    font-size: 24px;
+    right: 0;
+    top: 0;
+}
+
+.badge-and-identifier {
+    font: inherit;
+    font-weight: 400;
+    margin-top: -0.825rem;
+}
+
 .badge-and-identifier .identifier,
-.result_context,
-.result_context strong {
-    padding: 0;
-}
-
-/* Remove colors from record types. */
-.agent,
-.classification,
-.collection,
-.folder,
-.object,
-.person,
-.record,
-.resource,
-.top_container,
+.badge-and-identifier .identifier .component,
+.badge-and-identifier .identifier .id-label,
+.record-type-badge,
 .record-type-badge.accession,
 .record-type-badge.agent,
 .record-type-badge.archival_object,
@@ -69,357 +135,34 @@ span.head {
 .record-type-badge.digital_object,
 .record-type-badge.repository,
 .record-type-badge.resource,
-.record-type-badge.subject,
-.recordtype.repository,
-.recordtype.classification,
-button.subject {
+.record-type-badge.subject {
     color: inherit;
+    font: inherit;
+    padding: 0;
 }
 
-/* Restyle accordions and expanders. */
-.acc_holder {
-    margin: 0;
-}
-
-#content .acc_button,
-#content .expander {
-    background: inherit;
-    border: 1px solid;
-    border-radius: 3px;
-    text-decoration: none;
-}
-
-#content .acc_button {
-    margin-bottom: 20px;
-}
-
-#content .expander {
-    margin-left: 4px;
-    padding: 2px 4px;
-    white-space: nowrap;
-}
-
-#content .readmore > p {
-    display: inline;
-}
-
-/* Reset colors for alerts. */
-#content .alert {
-    color: inherit;
-}
-
-#content .alert.alert-danger {
-    background: #fff2f2;
-    border-color: #c00;
-}
-
-/* Restyle generic buttons. */
-#content .btn.btn-default {
-    background: #fff;
-    border: 1px solid #ccc;
+.btn.btn-default {
     color: #7f3f2f;
+    font-size: inherit;
     line-height: inherit;
-    text-decoration: none;
+    text-decoration: underline;
+    text-decoration-color: #f5c163;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
 }
 
-#content .btn.btn-default:hover,
-#content .btn.btn-default:focus {
+.btn.btn-default:is(:active, :focus, :hover) {
     color: #4f2c1d;
+    text-decoration: underline;
+    text-decoration-color: #f5c163;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 2px;
 }
 
-/* Show icons that are hidden. */
-.close[aria-hidden=true],
-.fa[aria-hidden=true],
-.record-type-badge[aria-hidden=true] {
-    display: inline-block;
+.btn.btn-default .fa-inverse {
+    color: #e3a492;
 }
 
-/* Fix appearance of number of facet records. */
-.facets .recordnumber {
-    font-size: 0.875em;
-    padding: 0 4px;
-}
-
-/* Fix spacing for filter forms. */
-.filter_more form {
-    margin: 0 15px 20px 15px;
-    max-width: 100%;
-}
-
-.form-group {
-    margin-bottom: 4px;
-}
-
-/* Restyle tree widget. */
-.largetree-container {
-    background: transparent;
-    margin-bottom: 0;
-}
-
-.largetree-container .current {
-    outline-color: #f9f6b8;
-}
-
-.largetree-container .current .table-cell {
-    background-color: #fffff2;
-}
-
-.largetree-container .indentor {
-    background-color: transparent;
-    vertical-align: top;
-}
-
-.largetree-container .table.root {
-    margin-bottom: 0;
-}
-
-.largetree-container .table.root div.table-row,
-.largetree-container .table.root div.table-row:nth-of-type(2n+1) {
-    background-color: transparent;
-}
-
-/* Fix spacing of modal footers. */
-.modal-footer {
-    padding-right: 7px;
-}
-
-/* Style tabs. */
-#tabs {
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    font-size: 1.1em;
-    flex-wrap: wrap;
-    line-height: 1.25;
-    margin: 0 0 20px 0;
-    padding: 0;
-}
-
-#tabs a {
-    background: #f5f5f5;
-    border: 1px solid #ddd;
-    border-top-left-radius: 0.375rem;
-    border-top-right-radius: 0.375rem;
-    margin: 0 0 -1px -1px;
-    padding: 10px 20px 6px 20px;
-}
-
-#tabs a:active,
-#tabs a:focus,
-#tabs a:hover {
-    border-color: #ddd;
-    z-index: 3;
-}
-
-#tabs a[href="#"] {
-    background: #fff;
-    border-color: #ddd;
-    border-bottom-color: #fff;
-    color: inherit;
-    font-weight: 700;
-    text-decoration: none;
-    z-index: 2;
-}
-
-.nav-tabs {
-    border-bottom: none;
-}
-
-/* Fix spacing of single notes and dates. */
-.note-content,
-.subnote,
-#content .dates-is-single-date {
-    padding: 0;
-    margin: 0 0 20px 0;
-}
-
-.note-content > p:last-child {
-    margin-bottom: 0;
-}
-
-/* Move digital objects to be their own left aligned row. */
-.images {
-    margin: 0 0 20px 0;
-}
-
-.objectimage {
-    float: left;
-    margin: 0 10px 0 0;
-    width: auto;
-}
-
-.upper-record-details {
-    clear: left;
-}
-
-/* Make required fields less crazy. */
-span.required {
-    color: inherit;
-    font-variant: normal;
-    text-transform: capitalize;
-}
-
-/* Fix issues with resizable sidebars. */
-html {
-  scroll-padding-top: 24px;
-}
-
-#sidebar.resizable-sidebar {
-    margin-bottom: 8px;
-    padding: 10px;
-}
-
-@media (min-width: 992px) {
-    #sidebar.resizable-sidebar {
-        padding-left: 18px;
-    }
-}
-
-#sidebar form {
-    max-width: 100%;
-    margin: 0 15px;
-}
-
-#sidebar h2 {
-    font-size: 1.1em;
-    line-height: 1.25;
-    font-weight: 700;
-}
-
-#sidebar .resizable-sidebar-handle {
-    display: none;
-}
-
-@media (min-width: 992px) {
-    #sidebar .resizable-sidebar-handle {
-        display: block;
-    }
-}
-
-#sidebar .search {
-    margin-top: 5px;
-}
-
-.has-resizable-content {
-    margin-right: 0;
-}
-
-.has-resizable-content-left {
-  margin-left: 0;
-  margin-right: -15px;
-}
-
-@media (min-width: 992px) {
-  .has-resizable-content-left #sidebar.resizable-sidebar {
-    padding-left: 10px;
-    padding-right: 18px;
-    position: sticky;
-    top: 20px;
-  }
-
-  .has-resizable-content-left #sidebar.resizable-sidebar .resizable-sidebar-handle {
-    border-left: 1px solid #CCC;
-    border-right: none;
-    left: auto;
-    right: 0;
-  }
-}
-
-/* Restyle search statement. */
-.searchstatement {
-    background-color: #f2f2f2;
-    border-radius: 4px;
-    line-height: 1.5;
-    margin: 0 0 8px 0;
-    padding: 4px 8px;
-}
-
-.searchstatement .btn-group, .refinesearch {
-    margin: 6px 0 0 0;
-}
-
-.searchstatement .no-bullets {
-    margin: 0;
-}
-
-/* Restyle repository logos. */
-.repository-logo {
-    float: none;
-}
-
-.repository-logo img,
-.recordrow .repository-logo img {
-    height: 80px;
-    margin-bottom: 10px;
-    max-height: none;
-    max-width: none;
-    width: auto;
-}
-
-/* Make padding of panels more consistent. */
-.panel-body {
-    padding: 20px 15px 0 15px;
-}
-
-/* Move link to search video. */
-.search > h2 {
-    float: left;
-}
-
-.search > form {
-    clear: both;
-}
-
-/* Fix height of plus and minus buttons. */
-#content .plusminus .btn {
-    line-height: 1.428571429;
-}
-
-/* Add bullets to nodes in collection organization. */
-.indentor > .expandme {
-    display: inline-block;
-    padding-right: 0;
-}
-
-.indentor > .expandme[aria-hidden] {
-    visibility: visible !important;
-}
-
-.indentor > .expandme[aria-hidden] > .expandme-icon::before {
-    content: "\2022";
-    font-size: 20px;
-    line-height: 0;
-}
-
-/* Align search row elements to bottom. */
-.search_row {
-    align-items: end;
-    display: flex;
-}
-
-/* Remove margin from labels. */
-label {
-    margin-bottom: 0;
-}
-
-/* Adjust margins between sections. */
-#content .information,
-#content .sidebar {
-    margin-bottom: 20px;
-}
-
-#info_row {
-    display: flex;
-}
-
-#info_row > div {
-    flex: 1 1 auto;
-}
-
-#info_row > .page_actions {
-    white-space: nowrap;
-}
-
-/* Emphasis */
 .emph {
     font-style: italic;
 }
@@ -467,43 +210,349 @@ u.emph {
     font-variant: small-caps;
 }
 
-/* Improve styling of infinite records. */
-.infinite-record-record {
+.has-resizable-content {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.infinite-record-container {
+    overflow: visible;
+}
+
+.infinite-record-wrapper {
+    height: auto;
+}
+
+.infinite-record-wrapper .infinite-record-record {
     background-image: repeating-linear-gradient(90deg, transparent, transparent 19px, #ccc 20px);
+    margin-left: -19px;
 }
 
-.infinite-record-record:last-child {
-    margin-bottom: 8px;
-}
-
-.infinite-item {
+.infinite-record-wrapper .infinite-record-record .infinite-item {
     display: flow-root;
-    margin: 0;
-    padding: 10px 0 0 0;
+    padding-left: 20px;
 }
 
-.infinite-item.infinite-item-indent-0 {
-    padding: 0;
-}
-
-#content .infinite-item .information {
+.infinite-record-wrapper .infinite-record-record .infinite-item dl {
     margin: 0;
     padding: 0;
 }
 
-.infinite-item .subnote {
-    margin: 10px 0;
+.infinite-record-wrapper .infinite-record-record .infinite-item dl dt,
+.infinite-record-wrapper .infinite-record-record .infinite-item dl dd {
+    float: left;
+    margin: 0;
     padding: 0;
 }
 
-.infinite-item dl.dl-horizontal {
-    margin: 10px 0;
+.infinite-record-wrapper .infinite-record-record .infinite-item dl dd + dd::before {
+    content: '; ';
+}
+
+.infinite-record-wrapper .infinite-record-record .infinite-item dl dt {
+    clear: left;
+}
+
+.infinite-record-wrapper .infinite-record-record .infinite-item dl dt::after {
+    content: ":\00a0";
+}
+
+.infinite-record-wrapper .infinite-record-record .infinite-item h4 {
+    font-size: 1.2rem;
+}
+
+.infinite-record-wrapper .infinite-record-record .infinite-item-indent-1 h3 {
+    font-size: 1.5rem;
+}
+
+.infinite-record-wrapper .infinite-record-record .infinite-item-indent-2 h3 {
+    font-size: 1.4rem;
+}
+
+.infinite-record-wrapper .infinite-record-record .infinite-item-indent-3 h3 {
+    font-size: 1.3rem;
+}
+
+.infinite-record-wrapper .infinite-record-record .infinite-item-indent-4 h3 {
+    font-size: 1.2rem;
+}
+
+
+.inline-label {
+    float: left;
+    font: inherit;
+    font-weight: 400;
+}
+
+.inline-label::after {
+    content: ":\00a0";
+}
+
+.large-badge > form {
+    display: inline;
+}
+
+.largetree-container {
+    background: transparent;
+    margin-bottom: 0;
+}
+
+.largetree-container .current {
+    outline-color: #f5c163;
+}
+
+.largetree-container .current .table-cell {
+    background-color: #fdf3e0;
+}
+
+.largetree-container .has_digital_instance {
+    float: right;
+    line-height: 1.65rem;
+    margin: 0 0.25rem;
+}
+
+.largetree-container .indentor {
+    background: transparent;
+}
+
+.largetree-container .indentor > .expandme {
+    padding-right: 0;
+}
+
+.largetree-container .indentor > .expandme[aria-hidden] {
+    visibility: visible !important;
+}
+
+.largetree-container .indentor > .expandme[aria-hidden] > .expandme-icon {
+    right: 7px;
+    transform: none;
+    vertical-align: top;
+}
+
+.largetree-container .indentor > .expandme[aria-hidden] > .expandme-icon::before {
+    color: #fd5000;
+    content: "⚬";
+    font-size: .875rem;
+    -moz-osx-font-smoothing: auto;
+    -webkit-font-smoothing: auto;
+}
+
+.largetree-container .table-cell {
+    height: auto;
+    line-height: inherit;
+}
+
+.largetree-container .table.root {
+    margin-bottom: 0;
+}
+
+.largetree-container .table.root div.table-row,
+.largetree-container .table.root div.table-row:nth-of-type(2n+1) {
+    background-color: transparent;
+}
+
+.modal .modal-body {
+    padding: 0 1rem;
+}
+
+.modal .modal-footer,
+.modal .modal-header {
+    border: none;
+    padding: 1rem;
+}
+
+.modal .modal-title {
+    margin: 0;
     padding: 0;
 }
 
-.infinite-item dl.dl-horizontal dt,
-.infinite-item dl.dl-horizontal dd {
+.note-content {
+    margin: 0;
+    padding: 0;
+}
+
+.note-content.readmore .expander .fa {
+    display: none;
+}
+
+.note-content.readmore > p,
+.note-content.readmore.expanded .more {
+    display: inline;
+}
+
+.page_actions {
+    margin: 1rem 0;
+    white-space: nowrap;
+}
+
+@media (max-width: 991px) {
+    .information,
+    .page_actions {
+        width: 100%;
+    }
+
+    .page_actions > .text-right {
+        text-align: left;
+    }
+}
+
+.page_actions .large-badge {
+    font-size: 0.875rem;
+}
+
+.page_actions .large-badge .fa-3x {
+    font-size: 2em;
+}
+
+.page_actions .page_action {
+    border-color: #ccc;
+}
+
+.panel {
+    margin: 1rem 0;
+}
+
+.panel .panel-body {
+    padding: 0 1rem;
+}
+
+.panel .panel-body .bgsu_common_list_breadcrumb {
+    font-size: inherit;
     line-height: inherit;
     margin: 0;
+}
+
+.panel .panel-heading {
+    border: none;
+    padding: 1 rem;
+}
+
+.panel .panel-title {
+    margin: 0;
     padding: 0;
+}
+
+.panel-group {
+    margin: 0;
+    padding: 0;
+}
+
+@media (min-width: 768px) {
+    .plusminus {
+        display: block;
+        padding-top: 1.65rem;
+    }
+}
+
+.plusminus .btn {
+    font: inherit;
+    padding: .25rem .625rem;
+}
+
+.recordrow {
+    border: none;
+    margin: 1rem 0;
+    padding: 0;
+}
+
+.recordrow .dates,
+.recordrow .single_note {
+    margin: 0;
+}
+
+.recordrow .recordsummary {
+    clear: none;
+}
+
+.recordrow .result-repfv__figure {
+    float: right;
+    margin: 0 0 1rem 1rem;
+}
+
+.recordrow .single_note br {
+    display: none;
+}
+
+.recordrow .single_note p {
+    margin: 0;
+}
+
+.recordrow .single_note p + p {
+    margin-top: 1rem;
+}
+
+.repository-logo {
+    float: none;
+}
+
+.repository-logo img,
+.recordrow .repository-logo img {
+    max-height: 84px;
+    max-width: none;
+}
+
+.result_context,
+.result_context strong {
+    padding: 0;
+}
+
+.searchstatement {
+    background: #f2f2f2;
+    border-radius: 12px;
+    padding: 12px .75rem;
+}
+
+.searchstatement .no-bullets {
+    margin: 0;
+}
+
+.searchstatement .no-bullets > li::before {
+    display: none;
+}
+
+.searchstatement .refinesearch {
+    margin: 1rem 0 0 0;
+    padding: 0;
+    width: 100%;
+}
+
+.searchstatement .searchterm {
+    font: inherit;
+    font-weight: 400;
+}
+
+.subnote {
+    margin: 0;
+    padding: 0;
+}
+
+.subnote + .subnote {
+    margin-top: 1rem;
+}
+
+dd, dt {
+    line-height: inherit;
+}
+
+dl {
+    margin: 1rem 0;
+}
+
+dt {
+    font-weight: 400;
+}
+
+h1, h2, h3 {
+    color: inherit;
+}
+
+html {
+  scroll-padding-top: 1rem;
+}
+
+label {
+    display: inline;
+    font: inherit;
+    margin: 0;
+    max-width: none;
 }

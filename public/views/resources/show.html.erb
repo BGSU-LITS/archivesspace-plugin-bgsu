@@ -1,40 +1,41 @@
+<% @has_digital_objects = false %>
 <a name="main" title="<%= t('internal_links.main') %>"></a>
 <div id="main-content" class="resources">
-<div id="info_row">
+  <div class="row" id="info_row">
   <% unless defined?(@no_statement) || !defined?(@search) %>
   <div class="searchstatement"><%= @search[:search_statement].html_safe %></div>
   <% end %>
-  <div class="information">
+  <div class="information col-sm-7">
       <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
-      <%= render partial: 'shared/breadcrumbs' %>
   </div>
-  <div class="page_actions right">
+  <div class="page_actions col-sm-5 right">
     <%= render partial: 'shared/page_actions', locals: {:record => @result, :title =>  @result.display_string, :url => request.fullpath, :cite => @result.cite } %>
   </div>
 </div>
-</div>
 
 <%= javascript_include_tag "#{@base_url}/assets/resizable_sidebar_left.js" %>
+<%= stylesheet_link_tag "#{@base_url}/assets/resizable_sidebar_left.css" %>
 
 <% if @has_children %>
 <div class="row" id="notes_row">
-  <div id="sidebar" class="col-sm-3 resizable-sidebar">
+  <div class="col-sm-9">
+    <%= render partial: 'resources/resource_alltabs' %>
+<% end %>
+    <h2><%= t('actions.collection_overview') %></h2>
+    <%= render partial: 'shared/digital_objects', locals: {
+      :dig_objs => @dig,
+    } %>
+    <%= render partial: 'shared/record_innards' %>
+<% if @has_children %>
+  </div>
+  <div id="sidebar" class="col-sm-3 sidebar sidebar-container resizable-sidebar">
     <% if defined?(@filters) && defined?(@search) %>
     <%= render partial: 'shared/facets' %>
    <% end %>
    <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result['uri'], :action_text => "#{t('actions.search_in', :type => t('resource._singular'))}"} %>
    <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('cont_arr'), :root_node_uri => @result.uri, :current_node_uri => @result.uri} %>
- </div>
-  <div class="col-sm-9">
-    <%= render partial: 'resources/resource_alltabs' %>
-<% end %>
-    <h2><%= t('actions.collection_overview') %></h2>
-    <%= render partial: 'shared/digital', locals: {:dig_objs => @dig} %>
-    <%= render partial: 'shared/record_innards' %>
-<% if @has_children %>
   </div>
 </div>
 <% end %>
-
-<script>collapse_all(".note_panel", true);</script>
+</div>
 <%= render partial: 'shared/modal_actions' %>

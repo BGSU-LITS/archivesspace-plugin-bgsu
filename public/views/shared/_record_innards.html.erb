@@ -27,10 +27,7 @@
     <% end %>
 
     <% if @result.agents && Array(@result.agents['creator']).length > 0 %>
-      <% creators = @result.agents['creator'].reject{|r| r['_inherited']} %>
-      <% unless creators.empty? %>
-        <%= render partial: 'shared/agents_list', locals: {:list => {'creator' => creators}, :heading_size => 'h3'} %>
-      <% end %>
+      <%= render partial: 'shared/agents_list', locals: {:list => {'creator' => @result.agents['creator']}, :heading_size => 'h3'} %>
     <% end %>
 
     <% non_folder.each do |type| %>
@@ -69,29 +66,44 @@
 	<%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.additional'),
 	      :p_id => 'add_desc', :p_body => x } %>
 	<% end %>
-        <% if (@result.kind_of?(Accession) || @result.kind_of?(Resource)) && !@result.deaccessions.blank? %>
-          <% x = render partial: 'shared/present_list', locals: {:list =>  @result.deaccessions.collect{|d| d.fetch('description')}, :list_clss => 'deaccessions'} %>
-          <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('deaccessions'), :p_id => 'deaccessions_list', :p_body => x} %>
-        <% end %>
-        <% unless @result.subjects.blank? %>
-	   <% x= render partial: 'shared/present_list', locals: {:list => @result.subjects, :list_clss => 'subjects_list'} %>
-	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('subject._plural'),
+  <%
+    additional_published_fvs = []
+    if @result.json['file_versions'].present? && @result.json['representative_file_version'].present?
+      additional_published_fvs = @result.json['file_versions'].select { |fv| fv['publish'] && fv['file_uri'] != @result.json['representative_file_version']['file_uri'] }
+    end
+  %>
+  <% unless additional_published_fvs.empty? %>
+    <%
+      x = render partial: 'digital_objects/additional_file_versions', locals: { :fvs => additional_published_fvs }
+    %>
+    <%= render partial: 'shared/accordion_panel', locals: {
+      :p_title => t('digital_object._public.additional'),
+      :p_id => 'additional_file_versions_list',
+      :p_body => x
+    } %>
+  <% end %>
+    <% unless @result.agents.blank? %>
+  <%# ANW-1095: don't show creators in related names section since it is redundant %>
+  <% not_creators = @result.agents.except("creator") %>
+  <% x= render partial: 'shared/agents_list', locals: {:list => not_creators} %>
+    <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('pui_agent.related'),
+       :p_id => 'agent_list', :p_body => x} %>
+  <% end %>
+  <% unless @result.subjects.blank? %>
+	  <% x= render partial: 'shared/subjects_list', locals: {:list => @result.subjects} %>
+	  <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('subject._plural'),
 	      :p_id => 'subj_list', :p_body => x} %>
 	<% end %>
+  <% if (@result.kind_of?(Accession) || @result.kind_of?(Resource)) && !@result.deaccessions.blank? %>
+    <% x = render partial: 'shared/present_list', locals: {:list =>  @result.deaccessions.collect{|d| d.fetch('description')}, :list_clss => 'deaccessions'} %>
+    <%= render partial: 'shared/accordion_panel', locals: {:p_title => t('deaccessions'), :p_id => 'deaccessions_list', :p_body => x} %>
+  <% end %>
   <% unless @result.classifications.blank? %>
     <% x= render partial: 'classifications/related_listing', locals: {:classifications => @result.classifications} %>
     <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('classification._plural'),
                                                            :p_id => 'classifications_list', :p_body => x} %>
   <% end %>
-	<% unless @result.agents.blank? %>
-	  <% x= render partial: 'shared/agents_list', locals: {:list => @result.agents} %>
-	   <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('pui_agent.related'),
-	     :p_id => 'agent_list', :p_body => x} %>
-        <% end %>
-	<% unless @result.linked_digital_objects.blank? %>
-		<% x = render partial: 'resources/linked_digital_objects', locals: {:digital_objects => @result.linked_digital_objects} %>
-		<%= render partial: 'shared/accordion_panel', locals: {:p_title => t('linked_digital_objects'), :p_id => 'linked_digital_objects_list', :p_body => x} %>
-	<% end %>
+
 	<% if @result.kind_of?(Resource) && !@result.finding_aid.blank? %>
 	  <% x= render partial: 'resources/finding_aid' %>
 	  <%= render partial: 'shared/accordion_panel', locals: {:p_title =>  t('resource._public.finding_aid.head'),
@@ -132,5 +144,4 @@
         <%= render :file => template if File.exists?(template) %>
       <% end %>
     </div>
-    <script type="text/javascript" >initialize_accordion(".note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
-    </script>
+<%= render partial: 'shared/initialize_accordion' %>

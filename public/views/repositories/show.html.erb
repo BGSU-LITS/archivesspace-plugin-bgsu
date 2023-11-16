@@ -6,7 +6,7 @@
   <div id="whats-in-container">
     <h2><%= t('repository.what') %> </h2>
     <div>
-      <ul class="list-inline">
+      <ul class="bgsu_common_list_inline">
 	<% @badges.each do |type| %>
 	<%= render partial: 'repositories/badge', locals: {:type => type} %>
 	<% end %>
@@ -14,7 +14,7 @@
     </div>
 
   </div>
-  <%= render partial: 'shared/search', locals: {:search_url => "#{@result['uri']}/search",
+  <%= render partial: 'shared/search', locals: {:search_url => "/search",
    :title => t('repository._singular'),
    :limit_options =>  [["#{t('actions.search')} #{t('search-limits.all')}",''],
             [t('search-limit', :limit => t('search-limits.resources')),'resource'],
@@ -25,7 +25,9 @@
             ["#{t('search_results.filter.creators')}",'creators_text'],
             ["#{t('search_results.filter.subjects')}",'subjects_text'],
             ["#{t('search_results.filter.notes')}", 'notes'],
-            ["#{t('search_results.filter.identifier')}", 'four_part_id'] ] } %>
+            ["#{t('search_results.filter.identifier')}", 'identifier']],
+
+   :rid => @result['uri'].scan(/\d+/).first } %>
 
     <%= render partial: 'repositories/full_repo', locals: {:info => @result['repo_info'], :url => @result['url']} %>
 </div>

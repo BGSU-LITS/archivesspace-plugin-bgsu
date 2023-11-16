@@ -2,26 +2,8 @@
 <html lang="<%= AppConfig[:locale] %>">
 <head>
     <meta charset="utf-8">
-    <title>
-        <%= (@page_title.blank? ? '' : "#{strip_mixed_content(@page_title)} - ") %>
-        <%= t('brand.title') %>
-        - BGSU University Libraries
-    </title>
-    <script>
-        // Hide page until fully loaded to prevent flash of unstyled content.
-        (function() {
-            var html = document.querySelector('html');
-            html.style.display = 'none';
-
-            document.addEventListener(
-                'DOMContentLoaded',
-                function(event) {
-                    html.style.display = 'block';
-                }
-            );
-        })();
-    </script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%=  (@page_title.blank? ? '' : "#{strip_mixed_content(@page_title)} - ") %><%= t('brand.title') %> - BGSU University Libraries</title>
 	<%= csrf_meta_tags %>
 
 	<%# block cross-origin refer per https://go-to-hellman.blogspot.com/2015/06/protect-reader-privacy-with-referrer.html %>
@@ -31,6 +13,7 @@
 
 	<script>
 	 var APP_PATH = '<%= PrefixHelper.app_prefix("") %>';
+	 var SHOW_IDENTIFIERS_IN_TREE = <%= AppConfig[:pui_display_identifiers_in_resource_tree] %>;
 	</script>
 
 	<%= stylesheet_link_tag    'application', media: 'all' %>
@@ -48,6 +31,8 @@
 </head>
 
 <body>
+    <script>(s=>{s.display='none';document.addEventListener('DOMContentLoaded',()=>s.display='block')})(document.documentElement.style)</script>
+
     <main id="content">
         <a name="maincontent" id="maincontent"></a>
         <%= flash_messages %>
@@ -68,12 +53,11 @@
 		<% end %>
 	<% end %>
 
-    <script src="https://lib.bgsu.edu/template/1.4.0/common.js"></script>
-    <script src="https://lib.bgsu.edu/template/1.4.0/template.js"></script>
+    <script src="https://libtest-2023.bgsu.edu/template/2.0.0-b13/template.js"></script>
+    <script src="https://libtest-2023.bgsu.edu/template/2.0.0-b13/common.js"></script>
     <script>
         <% welcome = request.original_fullpath.chomp('/') == app_prefix('/').chomp('/') %>
         bgsu_template.setup({
-            body: true,
             main: {
                 id: 'content',
                 top: 'top',
@@ -95,15 +79,15 @@
                     <% if link[0] == '/repositories' %>
                     menu: [
                         {
-                            text: 'Browne Popular Culture Library',
+                            text: '<%= t('repositories.bpcl') %>',
                             href: '<%= app_prefix(link[0]) %>/2',
                         },
                         {
-                            text: 'Center for Archival Collections',
+                            text: '<%= t('repositories.cac') %>',
                             href: '<%= app_prefix(link[0]) %>/4',
                         },
                         {
-                            text: 'Music Library and Bill Schurk Sound Archives',
+                            text: '<%= t('repositories.mlbssa') %>',
                             href: '<%= app_prefix(link[0]) %>/3',
                         },
                     ],
@@ -113,10 +97,6 @@
                     <% end %>
                 },
                 <% end %>
-                {
-                    text: 'Help',
-                    href: '#'
-                },
             ],
             <% unless AppConfig[:pui_hide][:search_tab] || welcome %>
             form: {
@@ -138,13 +118,22 @@
             },
             <% end %>
             help: {
-                heading: 'Contact Us',
-                text: 'libadmin@bgsu.edu',
-                href: 'mailto:libadmin@bgsu.edu',
+                heading: 'University Libraries',
+                text: 'Ask Us!',
+                href: 'https://www.bgsu.edu/library/ask-us/',
             },
         });
 
         bgsu_common.setup();
+
+        document.querySelectorAll('.note-content').forEach(node => {
+            const html = node.innerHTML;
+
+            node.innerHTML = html.replaceAll(
+                /<br\s*\/?>\s*<br\s*\/?>/g,
+                '<span class="bgsu_common__break"></span>'
+            );
+        });
     </script>
 </body>
 </html>

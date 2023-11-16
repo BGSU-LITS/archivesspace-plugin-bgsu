@@ -2,7 +2,7 @@
   indent_level = @result.raw.fetch('ancestors', []).length
 %>
 <div class="infinite-item infinite-item-indent-<%= indent_level %>">
-<% unless indent_level == 0 %>
+  <% unless indent_level == 0 %>
   <div class="information"<% if %r{/(\w+)s/(\d+)$} =~ @result.uri %> id="tree::<%= $1 %>_<%= $2 %>"<% end %>>
       <%=
         render partial: 'shared/idbadge', locals: {
@@ -13,17 +13,21 @@
   </div>
 <% end %>
 
-<% if @dig_objs[@result.uri] %>
-<%= render partial: 'shared/digital', locals: {:dig_objs => @dig_objs[@result.uri]} %>
-<% end %>
-
   <% scopecontent_note = @result.note('scopecontent') %>
   <% if scopecontent_note && !inherited?(scopecontent_note) %>
     <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => scopecontent_note, :notitle => true} %>
   <% end %>
 
 <% unless indent_level == 0 %>
-  <dl class="dl-horizontal">
+  <dl class="clearfix">
+
+    <% arrangement_note = @result.note('arrangement') %>
+    <% if arrangement_note && !arrangement_note['note_text'].blank? && !inherited?(arrangement_note) %>
+      <dt><%= arrangement_note['label'] %></dt>
+      <dd>
+        <%= render partial: 'shared/single_note', locals: {:type => 'arrangement', :note_struct => arrangement_note, :notitle => true} %>
+      </dd>
+    <% end %>
 
     <% accessrestrict_note = @result.note('accessrestrict') %>
     <% if accessrestrict_note && !accessrestrict_note['note_text'].blank? && !inherited?(accessrestrict_note) %>
@@ -31,6 +35,16 @@
       <dd>
         <%= render partial: 'shared/single_note', locals: {:type => 'accessrestrict', :note_struct => accessrestrict_note, :notitle => true} %>
       </dd>
+    <% end %>
+
+    <% unless @result.dates.blank? || all_inherited?(@result.dates) %>
+        <dt><%= t('resource._public.dates') %></dt>
+        <% @result.dates.each do |date| %>
+        <dd>
+          <%= inheritance(date['_inherited']).html_safe %>
+          <%= date['final_expression'] %>
+        </dd>
+        <% end %>
     <% end %>
 
     <% unless @result.extents.blank? || all_inherited?(@result.extents) %>
@@ -71,5 +85,9 @@
       <% end %>
     <% end %>
   </dl>
+<% end %>
+
+<% if @dig_objs[@result.uri] %>
+<%= render partial: 'shared/digital_objects', locals: {:dig_objs => @dig_objs[@result.uri]} %>
 <% end %>
 </div>

@@ -1,12 +1,12 @@
 <% context ||= @context %>
 <% if !context.blank? %>
 	<nav aria-label="breadcrumb">
-	  <ol class="list-breadcrumb">
+	  <ol class="bgsu_common_list_breadcrumb">
 	<li><a href="<%= app_prefix('/') %>"><%= t('brand.title') %></a>
 	<% context.each do |bread| %>
-	<% if bread[:crumb] %>
-	<% if bread.equal?(context.last) || bread[:uri].blank? %></li><li aria-current="page"><%= process_mixed_content(bread[:crumb]).html_safe %>
-	  <% else %></li><li><a href="<%=app_prefix(bread[:uri]) %>"><%= process_mixed_content(bread[:crumb]).html_safe %></a>
+	<% if bread[:crumb]; crumb = bread[:crumb]; crumb += " (#{bread[:identifier]})" if bread[:identifier] %>
+	<% if bread.equal?(context.last) || bread[:uri].blank? %></li><li aria-current="page"><%= process_mixed_content(crumb).html_safe %>
+	  <% else %></li><li><a href="<%=app_prefix(bread[:uri]) %>"><%= process_mixed_content(crumb).html_safe %></a>
 	  <% end %>
 	<% end %>
 	<% end %>

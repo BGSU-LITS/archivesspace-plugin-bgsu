@@ -1,17 +1,16 @@
-<%# handles modals.  Requires: modal_id, title, modal_body, button_text %>
-<div class="modal fade" id="<%=modal_id %>" tabindex="-1" role="dialog" aria-labelledby="<%= modal_id%>Label" aria-hidden="true">
+<%# handles modals.  Requires: modal_id, title, modal_body %>
+<div class="modal fade" id="<%=modal_id %>" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="<%= modal_id%>Label">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title" id="<%= modal_id%>Label"><%= title %></h2>
+        <button type="button" class="close" id="<%= modal_id %>_header_close" data-dismiss="modal" aria-label="<%= I18n.t("actions.close") %>">&times;</button>
+        <h2 class="modal-title" id="<%= modal_id %>Label"><%= title %></h2>
       </div>
       <div class="modal-body">
         <%= modal_body %>
       </div>
       <div class="modal-footer">
-        <button type="button" class="button button-default" data-dismiss="modal">Close</button>
-        <button type="button" class="button button-primary action-btn"></button>
+        <button type="button" class="bgsu_common_button" id="<%= modal_id %>_footer_close" data-dismiss="modal" aria-label="<%= I18n.t("actions.close") %>"><%= I18n.t("actions.close") %></button>
       </div>
     </div>
   </div>

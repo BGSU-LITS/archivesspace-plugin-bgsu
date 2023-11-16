@@ -2,25 +2,6 @@ en:
   brand:
     title: Special Collections Finding Aids at BGSU
     welcome_page_title: Welcome
-    finding_head: Not Finding What You’re Looking For?
-    finding_message: |
-      <p>Please note that we are still transferring our finding aids to this
-      site. As we do so, we encourage you to also search our
-      <a href="https://lib.bgsu.edu/finding_aids/">legacy Finding Aids
-      site</a>. If you have further questions, please contact the appropriate
-      <a href="/findingaids/repositories">repository</a>.</p>
-    requesting_head: Requesting Materials
-    requesting_message: |
-      <p>Each finding aid contains a link to request materials from the
-      collections. Each repository has its own location, hours, and policies for
-      providing access to its collections. Please consult the
-      <a href="/findingaids/repositories">repository</a> with questions about
-      using the materials. Please note that collections are non-circulating and
-      must be used in the repository’s reading room. In some cases the
-      collections are stored off-site and require advance notice for retrieval.
-      While some finding aids link to digitized versions of select collection
-      items, viewing a collection in its entirety will require visiting the
-      repository.</p>
   actions:
     print: Print PDF
     search_header: Search the Finding Aids
@@ -36,3 +17,14 @@ en:
   classification_term:
     _singular: Collecting Area Term
     _plural: Collecting Area Terms
+  repositories:
+    all: All
+    bpcl: Browne Popular Culture Library
+    cac: Center for Archival Collections
+    mlbssa: Music Library and Bill Schurk Sound Archives
+  search_results:
+    fewer_facets: Less
+    more_facets: More
+    filter:
+      classification_paths: Collecting Area
+      published_agents: Name

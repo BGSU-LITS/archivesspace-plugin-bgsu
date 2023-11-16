@@ -8,7 +8,7 @@
 
       <% unless accession.deaccessions.empty? %>
         <div>
-          <h3><%= t('resource._public.related_accessions.deaccessions') %></h3>
+          <h4><%= t('resource._public.related_accessions.deaccessions') %></h4>
           <ul>
             <% accession.deaccessions.each do |deaccession| %>
               <li><%= deaccession['description'] %></li>

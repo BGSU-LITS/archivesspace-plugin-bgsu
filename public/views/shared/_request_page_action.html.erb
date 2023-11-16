@@ -1,0 +1,6 @@
+<% if defined?(@request) && !@request.nil? %>
+  <button type="submit" class="btn page_action request  btn-default" id="request_sub">
+    <i class="fa fa-bullhorn fa-3x"></i><br/>
+    <%= t('actions.request') %>
+  </button>
+<% end %>

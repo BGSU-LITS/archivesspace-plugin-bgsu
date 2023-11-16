@@ -1,4 +1,5 @@
 <% names_with_primarys = result.json['names'].select{ |n| n['parallel_names'].any? } %>
+
 <% if names_with_primarys.any? %>
   <h2><%= I18n.t('pui_agent.parallel') %></h2>
   <ul>

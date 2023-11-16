@@ -1,35 +1,44 @@
 <div id="main-content">
-  <div id="info_row">
-    <div class="information">
-      <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
-      <%= render partial: 'shared/breadcrumbs' %>
+  <div class="row" id="info_row">
+    <div class="information col-sm-7">
+      <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true}, :context => [{:crumb => t('subject._plural'), :uri => 'subjects'}, {:crumb => @result.display_string}] } %>
     </div>
-    <div class="page_actions right">
+    <div class="page_actions col-sm-5 right">
       <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
     </div>
   </div>
-    <% if @result['json']['scope_note'].present? %>
-      <span class="inline-label"><%= t('scope_note') %>:</span> <%= process_mixed_content( @result['json']['scope_note']).html_safe %>
-    <% end %>
-    <%# FOUND IN SECTION %>
-    <%= render partial: 'shared/results', locals: {:results => @results, :pager => @pager} %>
-   </div>
-  <div class="sidebar-left">
-     <%= render partial: 'shared/facets' %>
-        <h2 class="sidebar-title"><%= t('enumeration_names.subject_source') %></h2>
-        <p><%= t("enumerations.subject_source.#{@result['json']['source']}" ) %></p>
-        <% if !(terms = ASUtils.wrap(@result['json']['terms'])).empty? %>
-          <h2 class="sidebar-title"><%= t('subject_term_type') %></h2>
-          <div id="subject_terms">
-          <%= render partial: 'subjects/terms', locals: {:terms =>  terms, :list_clss => 'terms'} %>
-          </div>
-        <% end %>
-        <% unless @result.external_documents.blank? %>
-          <h2 class="sidebar-title"><%= t('external_docs') %></h2>
-          <div id="ext_doc_list">
-          <%= render partial: 'shared/present_list_external_docs', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
-          </div>
-        <% end %>
+  <%= render partial: 'shared/results_header', locals: {:results => @results} %>
+  <div class="bgsu_common_sidebar">
+    <div class="information">
+      <%# FOUND IN SECTION %>
+      <%= render partial: 'shared/results', locals: {:results => @results, :pager => @pager} %>
+    </div>
+    <div class="bgsu_common_sidebar_left">
+      <% facets = render partial: 'shared/facets' %>
+      <% unless facets.strip.empty? %>
+        <%= facets %>
+      <% end %>
+      <div class="clear">
+        <h3><%= t('enumeration_names.subject_source') %></h3><p><%= t("enumerations.subject_source.#{@result['json']['source']}" ) %></p>
+      </div>
+      <div class="clear">
+        <div id="res_accordion">
+          <% if !(terms = ASUtils.wrap(@result['json']['terms'])).empty? %>
+            <% x = render partial: 'subjects/terms', locals: {:terms =>  terms, :list_clss => 'terms'} %>
+            <h3><%= t('subject_term_type') %></h3>
+            <div id="subject_term"><%= x %></div>
+          <% end %>
+          <% unless @result.external_documents.blank? %>
+            <% x = render partial: 'shared/present_list_external_docs', locals: {:list =>  @result.external_documents, :list_clss => 'external_docs'} %>
+            <h3><%= t('external_docs') %></h3>
+            <div id="ext_doc_list"><%= x %></div>
+          <% end %>
+          <% if @result['json']['scope_note'].present? %>
+            <h3><%= t('scope_note') %></h3>
+            <div><%= process_mixed_content( @result['json']['scope_note']).html_safe %></div>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
 </div>

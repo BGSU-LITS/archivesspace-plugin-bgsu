@@ -2,12 +2,12 @@
 <% if defined?(@sort) && defined?(@sort_opts) && defined?(@base_search) %>
 
 
-<a class="sorter">
+<div class="bgsu_common__nowrap">
  <%= form_tag(app_prefix("#{@base_search}"), method: 'get') do %>
    <%= render partial: 'shared/hidden_params', locals: {:no_ids => true} %>
    <%= label_tag(:sort, "#{t('search_sorting.sort_by')}", :class=>'sr-only') %>
    <%= select_tag(:sort, options_for_select(@sort_opts,@sort)) %>
-   <%= submit_tag(t('search_sorting.sort'), :class=>'button button-small') %>
+   <%= submit_tag(t('search_sorting.sort'), :class=>'bgsu_common_button bgsu_common_button__small') %>
  <% end %>
-</a>
+</div>
 <% end %>

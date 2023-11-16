@@ -1,13 +1,14 @@
 <div id="main-content" class="classifications">
-  <div id="info_row">
-    <div class="information">
+  <div class="row">
+    <div class="information col-sm-7">
       <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
-      <%= render partial: 'shared/breadcrumbs' %>
     </div>
-    <div class="page_actions right">
+    <div class="page_actions col-sm-5 right">
       <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
     </div>
   </div>
+    <div>
+      <div class="information">
       <div class="description"><%= @result.description %></div>
       <% if @result.creator %>
       <div class="creator clear">
@@ -16,6 +17,8 @@
           <%= link_to @result.creator.display_string, app_prefix(@result.creator.uri) %>
       </div>
       <% end %>
+    </div>
+  </div>
         <h2><%= t('found', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('coll_obj._singular') : t('coll_obj._plural')}) %>:</h2>
   <div class="row">
     <div class="<%= @has_children ? 'col-sm-9' : 'col-sm-12' %>">
@@ -29,11 +32,12 @@
       <% end %>
     </div>
     <% if @has_children %>
-      <div id="sidebar" class="col-sm-3 resizable-sidebar">
+      <div id="sidebar" class="sidebar sidebar-container col-sm-3 resizable-sidebar">
         <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('subgroups'), :root_node_uri => @result.root_node_uri, :current_node_uri => @result.uri} %>
 
-        <% unless @results.blank? || @results['total_hits'] == 0 %>
-          <%= render partial: 'shared/facets' %>
+        <% facets = render partial: 'shared/facets' %>
+        <% unless facets.strip.empty? %>
+          <%= facets %>
         <% end %>
       </div>
     <% end %>

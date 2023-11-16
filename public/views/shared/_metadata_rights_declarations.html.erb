@@ -1,6 +1,6 @@
 <% declarations = result.json['metadata_rights_declarations'] %>
 <% if declarations && declarations.any? %>
-  <h3><%= I18n.t('metadata_rights_declaration._plural') %></h3>
+  <h2><%= I18n.t('metadata_rights_declaration._plural') %></h2>
   <ul>
   <% declarations.each_with_index do |declaration, idx| %>
     <li>

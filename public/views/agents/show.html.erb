@@ -2,16 +2,18 @@
 
 <div id="main-content" class="agents">
 
-  <div id="info_row">
-    <div class="information">
-      <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
+  <div class="row" id="info_row">
+    <div class="information col-sm-7">
+      <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true}, :context => [{:crumb => t('agent._plural'), :uri => 'agents'}, {:crumb => @result.display_string}] } %>
     </div>
-    <div class="page_actions right">
+    <div class="page_actions col-sm-5 right">
       <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
     </div>
   </div>
 
 
+<div>
+  <div>
     <%= render partial: 'dates', locals: {:result => @result} %>
     <%= render partial: 'parallel_names', locals: {:result => @result} %>
     <%= render partial: 'shared/notes', locals: {:result => @result, note_label: I18n.t('agent_notes.note_bioghist'), note_type: 'note_bioghist'} %>
@@ -27,13 +29,18 @@
     <%= render partial: 'shared/languages', locals: {:result => @result} %>
     <%= render partial: 'shared/metadata_rights_declarations', locals: {:result => @result} %>
     <%= render partial: 'snac', locals: {:result => @result} %>
+
+<%= render partial: 'shared/results_header', locals: {:results => @results} %>
+<div class="bgsu_common_sidebar">
+  <div>
     <%# FOUND IN SECTION %>
     <%= render partial: 'shared/results', locals: {:results => @results, :pager => @pager} %>
   </div>
 
-  <% if !@facets.blank? || !@filters.blank? %>
-    <div class="sidebar-left">
-    <%= render partial: 'shared/facets' %>
+  <% facets = render partial: 'shared/facets' %>
+  <% unless facets.strip.empty? %>
+    <div class="bgsu_common_sidebar_left">
+      <%= facets %>
     </div>
   <% end %>
 </div>
@@ -67,7 +74,9 @@
 
         </div>
       </div>
-      <script type="text/javascript" >
-          initialize_accordion("#agent_accordion .note_panel", "<%= t('accordion.expand') %>" , "<%= t('accordion.collapse') %>");
-      </script>
   <% end %>
+
+  </div>
+</div>
+</div>
+<%= render partial: 'shared/initialize_accordion' %>

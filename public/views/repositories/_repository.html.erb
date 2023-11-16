@@ -12,9 +12,13 @@
 	<% end %>
 <%= (full ? '</h1>' : '</h2>').html_safe %>
 
+<% if full %>
+<%= render partial: 'shared/breadcrumbs', locals: { :context => [{:crumb => t('repository._plural'), :uri => 'repositories'}, {:crumb => result['name']}] } %>
+<% end %>
+
       <div class="badge-and-identifier">
         <div class="record-type-badge repository">
-          <i class="fa fa-fw fa-home"></i><%= t('repository._singular') %>
+          <i class="fa fa-home"></i>&#160;<%= t('repository._singular') %>
         </div>
 
 	<div class="<%= (full ? 'clear' : 'recordsummary') %>">

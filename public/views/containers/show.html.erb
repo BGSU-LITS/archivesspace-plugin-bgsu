@@ -1,15 +1,27 @@
+<%
+if @result['json']['collection'][0]
+  @context = [{:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], type: 'repository'},
+        {:uri => @result['json']['collection'][0]['ref'], :crumb => @result['json']['collection'][0]['display_string'], type: 'resource'},
+        {:uri => nil, :crumb => process_mixed_content(@result.display_string), type: @result.primary_type}]
+end
+%>
 <div id="main-content" class="containers">
-<div id="info_row">
-  <div class="information">
+<div class="row">
+  <div class="information col-sm-7">
     <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
-    <%= render partial: 'shared/breadcrumbs' %>
   </div>
-  <div class="page_actions right">
+  <div class="page_actions col-sm-5 right">
     <%= render partial: 'shared/page_actions', locals: {:record => @result, :title => @result.display_string, :url => request.fullpath } %>
   </div>
 </div>
-<h2><%= t('contains', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('search_results.result') : t('search_results.results')}) %>:</h2>
-<div class="sidebar">
+
+    <div class="staff-hidden hide">
+      <% if @result['json']['restricted'] %>
+        <p class='bgsu_common_alert bgsu_common_alert__failure'><strong><%= I18n.t('top_container.restricted') %></strong></p>
+      <% end %>
+    </div>
+      <h2><%= t('contains', {:count => @results['total_hits'], :type => @results['total_hits'] == 1? t('search_results.result') : t('search_results.results')}) %>:</h2>
+<div class="bgsu_common_sidebar">
   <div>
     <% unless @results.blank? || @results['total_hits'] == 0 %>
       <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
@@ -22,7 +34,7 @@
 
   <% facets = render partial: 'shared/facets' %>
   <% unless facets.strip.empty? %>
-    <div class="sidebar-left">
+    <div class="bgsu_common_sidebar_left">
       <%= facets %>
     </div>
   <% end %>

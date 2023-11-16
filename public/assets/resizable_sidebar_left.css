@@ -1,0 +1,20 @@
+@media (min-width: 992px) {
+    .has-resizable-content-left {
+        display: flex;
+    }
+
+    .has-resizable-content-left > div {
+        order: 2;
+    }
+
+    .has-resizable-content-left #sidebar.resizable-sidebar {
+        order: 1;
+    }
+
+    .has-resizable-content-left #sidebar.resizable-sidebar .resizable-sidebar-handle {
+        border-left: 1px solid #ccc;
+        border-right: none;
+        left: auto;
+        right: 0;
+    }
+}

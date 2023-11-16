@@ -1,0 +1,19 @@
+<section>
+  <header>
+    <h3><%= I18n.t("actions.cite_item") %></h3>
+  </header>
+  <div>
+    <p id="item_citation"><%= item %></p>
+    <button type="button" id="copy_item_citation" class="bgsu_common_button bgsu_common_button__primary bgsu_common_button__small clip-btn" data-clipboard-target="#item_citation" aria-label="<%= I18n.t("actions.cilpboard_cite_item") %>"><%= I18n.t("actions.clipboard") %></button>
+  </div>
+</section>
+<hr>
+<section>
+  <header>
+    <h3><%= I18n.t("actions.cite_item_description") %></h3>
+  </header>
+  <div>
+    <p id="item_description_citation"><%= description %></p>
+    <button type="button" id="copy_item_description_citation" class="bgsu_common_button bgsu_common_button__primary bgsu_common_button__small clip-btn" data-clipboard-target="#item_description_citation" aria-label="<%= I18n.t("actions.cilpboard_cite_item_description") %>"><%= I18n.t("actions.clipboard") %></button>
+  </div>
+</section>

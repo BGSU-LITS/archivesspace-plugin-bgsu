@@ -2,6 +2,8 @@ ResourcesController
 class ResourcesController
   helper_method :process_digital_instance
 
+  DEFAULT_RES_FACET_TYPES = %w{primary_type subjects published_agents langcode classification_paths}
+
   def show
     uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
     begin
@@ -11,6 +13,7 @@ class ResourcesController
       tree_root = archivesspace.get_raw_record(uri + '/tree/root') rescue nil
       @has_children = tree_root && tree_root['child_count'] > 0
       @has_containers = has_containers?(uri)
+      @has_digital_objects = has_digital_objects?
 
       @result =  archivesspace.get_record(uri, @criteria)
       @repo_info = @result.repository_information
@@ -19,8 +22,12 @@ class ResourcesController
         {:uri => @repo_info['top']['uri'], :crumb => @repo_info['top']['name'], :type => 'repository'},
         {:uri => nil, :crumb => process_mixed_content(@result.display_string), :type => 'resource'}
       ]
-#      @rep_image = get_rep_image(@result['json']['instances'])
+
       fill_request_info
+      @dig = process_digital_instance(@result['json']['instances'])
+      process_extents(@result['json'])
+
+      @n_digital_objects = get_digital_object_count
       @ordered_records = archivesspace.get_record(uri + '/ordered_records').json.fetch('uris')
     rescue RecordNotFound
       record_not_found(uri, 'resource')
@@ -31,9 +38,10 @@ class ResourcesController
     @root_uri = "/repositories/#{params[:rid]}/resources/#{params[:id]}"
     begin
       @criteria = {}
-      @criteria['resolve[]'] = ['repository:id', 'resource:id@compact_resource', 'top_container_uri_u_sstr:id', 'related_accession_uris:id']
+      @criteria['resolve[]'] = ['repository:id', 'resource:id@compact_resource', 'related_accession_uris:id']
       @result = archivesspace.get_record(@root_uri, @criteria)
       @has_containers = has_containers?(@root_uri)
+      @has_digital_objects = has_digital_objects?
 
       @repo_info = @result.repository_information
       @page_title = "#{I18n.t('resource._singular')}: #{strip_mixed_content(@result.display_string)}"
@@ -42,7 +50,7 @@ class ResourcesController
       fill_request_info
       @ordered_records = archivesspace.get_record(@root_uri + '/ordered_records').json.fetch('uris')
       @paging = {}
-      @paging['per_page'] = 1000
+      @paging['per_page'] = 500
       @paging['total_hits'] = @ordered_records.length
       @paging['last_page'] = @paging['total_hits'].div(@paging['per_page']) + 1
       @paging['this_page'] = Integer(params.fetch(:page, "1")).clamp(1, @paging['last_page'])
@@ -53,7 +61,7 @@ class ResourcesController
           @paging['per_page'] * (@paging['this_page'] - 1),
           @paging['per_page']
         ),
-        { 'resolve[]' => ['top_container_uri_u_sstr:id'] },
+        {},
         true
       )
       @dig_objs = {}

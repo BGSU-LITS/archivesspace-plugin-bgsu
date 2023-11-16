@@ -2,7 +2,7 @@
 <%= javascript_include_tag 'tree_renderer' %>
 
 <h2><%= heading_text %></h2>
-<div class="infinite-tree-view largetree-container" id='tree-container'></div>
+<div class="infinite-tree-view largetree-container bgsu_common__sticky" id='tree-container'></div>
 
 <script>
     function tree_id_from_hash() {
@@ -55,11 +55,11 @@
                 if (href.startsWith('#')) {
                     var parent = $(this).parents('.largetree-node').first();
                     var count = ordered_records.indexOf(parent.data('uri'));
-                    var page = Math.floor(count / 1000) + 1;
+                    var page = Math.floor(count / 500) + 1;
                     var uri = root_uri + '/collection_organization';
 
                     if (page) {
-                        if (ordered_records.length > 1000) {
+                        if (ordered_records.length > 500) {
                             uri += '?page=' + page;
                         }
 

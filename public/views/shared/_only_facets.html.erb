@@ -1,6 +1,6 @@
 <% unless @facets.blank? %>
   <%
-    preferred_facet_order = %w(repository primary_type agents subjects langcode)
+    preferred_facet_order = %w(repository classification_paths subjects published_agents langcode primary_type)
     ordered_facet_types = @facets.keys.sort{|a,b|
       if preferred_facet_order.include?(a) && preferred_facet_order.include?(b)
         preferred_facet_order.index(a) <=> preferred_facet_order.index(b)
@@ -15,30 +15,34 @@
   %>
 
   <% ordered_facet_types.each do |type| %>
-    <% next if ['langcode', 'child_container_u_sstr'].include?(type) %>
-    <% h = @facets.fetch(type, false) %>
-    <% next unless h %>
-    <dt><%= t("search_results.filter.#{type}") %></dt>
-    <% facet_count = 0 %>
-    <% h.each do |v, ct| %>
-      <% if facet_count == 5 %>
-        <div class="more-facets">
-          <span class="more button button-small">▼ <%= t('search_results.more_facets') %></span>
-          <div class="below-the-fold">
-      <% end %>
-      <% facet_count += 1 %>
-      <dd>
-        <a href="<%= app_prefix("#{@page_search}&filter_fields[]=#{type}&filter_values[]=#{CGI.escape(v)}") %>"
-           rel="nofollow"
-           title="<%= t('search_results.filter_by')%> '<%= get_pretty_facet_value(type,v) %>'"><%= get_pretty_facet_value(type,v) %></a>
-        <span class="recordnumber"><%= ct %></span>
-      </dd>
+    <% facet_group = @facets.fetch(type, false) %>
+    <% next if facet_group.empty? %>
+    <h4><%= t("search_results.filter.#{type}") %></h4>
+    <ul>
+    <% facet_group.each_with_index do |facet, i| %>
+    <% if facet.type == "classification_paths" %>
+      <% json = ASUtils.json_parse(facet.label)[0] %>
+      <% facet.label = "#{json['identifier']}#{I18n.t('classification.identifier_separator')} #{json['title']}" %>
     <% end %>
-    <% if facet_count > 5 %>
-        <span class="less button button-small">▲ <%= t('search_results.fewer_facets') %></span>
+
+      <% if i == 5 %>
+    </ul>
+        <div class="more-facets">
+          <span class="more bgsu_common_button bgsu_common_button__small"><%= t('search_results.more_facets') %> ▼</span>
+          <div class="below-the-fold">
+    <ul>
+      <% end %>
+      <li>
+        <a href="<%= app_prefix("#{@page_search}&filter_fields[]=#{type}&filter_values[]=#{CGI.escape(facet.key)}") %>"
+           rel="nofollow"
+           title="<%= t('search_results.filter_by')%> '<%= facet.label %>'"><%= facet.label %></a>&nbsp;<span class="bgsu_common_badge"><%= facet.count %></span>
+      </li>
+    <% end %>
+    </ul>
+    <% if facet_group.size > 5 %>
+        <span class="less bgsu_common_button bgsu_common_button__small"><%= t('search_results.fewer_facets') %> ▲</span>
       </div>
 	  </div>
     <% end %>
-    <span class="type-spacer">&nbsp;</span>
   <% end %>
 <% end %>

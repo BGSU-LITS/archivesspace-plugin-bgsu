@@ -1,5 +1,7 @@
 ObjectsController
 class ObjectsController
+  include PrefixHelper
+
   def show
     uri = "/repositories/#{params[:rid]}/#{params[:obj_type]}/#{params[:id]}"
     url = uri
@@ -12,6 +14,29 @@ class ObjectsController
 
     begin
       @result = archivesspace.get_record(url, @criteria)
+
+      if params[:obj_type] == 'digital_object_components'
+        redirect_to app_prefix(@result['json']['digital_object']['ref'])
+
+        return
+      end
+
+      if params[:obj_type] == 'digital_objects'
+        redirect_to app_prefix(@result['json']['linked_instances'][0]['ref'])
+
+        return
+      end
+
+      if params[:obj_type] == 'archival_objects'
+        @ordered_records = archivesspace.get_record(@result.root_node_uri + '/ordered_records').json.fetch('uris')
+
+        page = (@ordered_records.map {|r| r['ref']}.index(@result.uri) / 500).floor() + 1
+
+        redirect_to app_prefix(@result.root_node_uri + "/collection_organization") +
+          (page > 1 ? "?page=#{page}" : "") + "#tree::archival_object_#{params[:id]}"
+
+        return
+      end
 
       if params[:obj_type] == 'digital_objects'
         tree_root = archivesspace.get_raw_record(uri + '/tree/root') rescue nil
@@ -27,7 +52,6 @@ class ObjectsController
       if @result['primary_type'] == 'digital_object' || @result['primary_type'] == 'digital_object_component'
         @dig = process_digital(@result['json'])
       else
-        @ordered_records = archivesspace.get_record(@result.root_node_uri + '/ordered_records').json.fetch('uris')
         @dig = process_digital_instance(@result['json']['instances'])
         process_extents(@result['json'])
       end
