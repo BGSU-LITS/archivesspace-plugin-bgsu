@@ -460,10 +460,6 @@ u.emph {
     margin: 0;
 }
 
-.recordrow .recordsummary {
-    clear: none;
-}
-
 .recordrow .result-repfv__figure {
     float: right;
     margin: 0 0 1rem 1rem;
