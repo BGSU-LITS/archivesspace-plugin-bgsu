@@ -28,6 +28,10 @@ AppConfig[:pui_repos]['cac'] = {}
 AppConfig[:pui_repos]['cac'][:hide] = {}
 AppConfig[:pui_repos]['cac'][:hide][:classification_badge] = false
 
+AppConfig[:pui_repos]['bpcl'] = {}
+AppConfig[:pui_repos]['bpcl'][:hide] = {}
+AppConfig[:pui_repos]['bpcl'][:hide][:classification_badge] = false
+
 # Always show search form in collections.
 AppConfig[:pui_search_collection_from_archival_objects] = true
 AppConfig[:pui_search_collection_from_collection_organization] = true
