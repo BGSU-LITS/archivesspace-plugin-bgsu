@@ -1,31 +1,13 @@
 <%
 name = nil
-email = nil
-phone = nil
+code = nil
 
 if @result.resolved_repository
   name = @result.resolved_repository.fetch('name')
-  email = @result.resolved_repository.dig('agent_representation', '_resolved', 'agent_contacts', 0, 'email')
-  telephones = @result.resolved_repository.dig('agent_representation', '_resolved', 'agent_contacts', 0, 'telephones')
-
-  telephones.each do |telephone|
-    if !telephone['number'].blank?
-      if !telephone['number_type'].blank? && telephone['number_type'].strip.upcase != 'FAX'
-        phone = telephone['number']
-      end
-    end
-  end
+  code = @result.resolved_repository.fetch('repo_code').downcase.sub("/", "")
 end
 
-bib = @result['json'] && @result['json']['user_defined'] && @result['json']['user_defined']['string_1']
-
-if bib
-  bib_match = bib.match /^b[0-9]{7}/
-
-  if bib_match
-    bib = bib_match[0] + "a"
-  end
-end
+alma = @result['json'] && @result['json']['user_defined'] && @result['json']['user_defined']['string_1']
 %>
 
-Unless otherwise noted in this finding aid, this collection is available for use<% if name %> at the <%= name %><% end %> any time during our normal hours of operation. While no appointment is required, we recommend requesting access to the collection in advance of your visit<% if email %> <a href="mailto:<%= email %>">via email</a><% if phone or bib %> or<% end %><% end %><% if phone %> by phone at <%= phone %><% if bib %> or<% end %><% end %><% if bib %> using the <em>Schedule for Use</em> button in the <a href="http://maurice.bgsu.edu/record=<%= bib %>" target="_blank">collection’s catalog record</a><% end %>.
+Unless otherwise noted in this finding aid, this collection is available for use<% if name %> at the <%= name %><% end %> any time during our normal hours of operation. While no appointment is required, we recommend requesting access to the collection in advance of your visit<% if code %> by <a href="https://www.bgsu.edu/library/ask-us/#<%= code %>" target="_blank">contacting us</a><% if alma %> or<% end %><% end %><% if alma %> placing a hold via the collection’s <a href="https://librarysearch.bgsu.edu/discovery/fulldisplay?vid=01OHIOLINK_BGSU:BGSU&docid=alma<%= alma %>" target="_blank">catalog record</a> in Library Search. Please note that you must be logged into your Library Search account in order to place a hold. If you do not have a Library Search account, please contact us directly<% end %>.
