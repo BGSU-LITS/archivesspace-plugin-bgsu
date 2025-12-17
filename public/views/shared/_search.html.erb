@@ -1,19 +1,12 @@
 <%
   show_header = true if show_header.nil?
   header_size = '2' if header_size.nil?
-  rid = '' if rid.nil?
-  rid_options = [
-    [t('repositories.all'),''],
-    [t('repositories.bpcl'),'2'],
-    [t('repositories.cac'),'4'],
-    [t('repositories.mlbssa'),'3']
-  ]
 %>
 <div class="search" role="search">
   <a name="search" id="search"></a>
   <% if show_header %>
-  <% header = title.nil? ? t('actions.search_header') : t('actions.search_in', :type => title) %>
-  <h<%= header_size %>><%= header %></h<%= header_size %>>
+    <% header = title.nil? ? t('actions.search_header') : t('actions.search_in', :type => title) %>
+    <h<%= header_size %>><%= header %></h<%= header_size %>>
     <% if header_size == '1' %>
       <%= render partial: 'shared/breadcrumbs', locals: { :context => [{:crumb => header}] } %>
     <% end %>
@@ -21,47 +14,57 @@
   <% @search = Search.new unless defined?(@search) %>
   <%= form_tag(app_prefix("#{search_url}"), method: 'get', :id => 'advanced_search') do %>
   <% (0...[1, @search.q.length].max).each do |i| %>
-  <div class="row search_row" id="search_row_<%= i %>">
-    <div class="col-sm-2 bool form-group<%= (i == 0 ? ' hidden' : '') %>">
-      <%= label_tag("op#{i}", t('advanced_search.operator_label')) %>
-      <%= select_tag('op[]', options_for_select(Search.get_boolean_opts, @search[:op][i]), disabled: (i == 0), :id => "op#{i}") %>
-      <%= hidden_field_tag('op[]','', :id => 'op_') if i == 0 %>
-    </div>
+    <div class="row search_row align-items-end" id="search_row_<%= i %>">
+      <div class="col-md-2 bool form-group search-operator-field">
+        <%= label_tag("op#{i}", t('advanced_search.operator_label')) %>
+        <%= select_tag('op[]', options_for_select(Search.get_boolean_opts, @search[:op][i]), disabled: (i == 0), :id => "op#{i}",:class=> 'form-control' + (i == 0 ? ' d-none' : '') + ' options-for-select') %>
+        <%= hidden_field_tag('op[]','', :id => 'op_') if i == 0 %>
+      </div>
     <% if i == 0 %>
-      <div class="col-sm-2 form-group norepeat">
+      <div class="col-md-2 form-group norepeat">
         <%= label_tag(:rid, t('repository._singular')) %>
-        <%= select_tag(:rid, options_for_select(rid_options, rid)) %>
+        <%
+          rid = '' if rid.nil?
+          rid_options = [
+            [t('repositories.all'),''],
+            [t('repositories.bpcl'),'2'],
+            [t('repositories.cac'),'4'],
+            [t('repositories.mlbssa'),'3']
+          ]
+        %>
+        <%= select_tag(:rid, options_for_select(rid_options, rid), :class=> 'form-control fill-column') %>
       </div>
     <% end %>
-    <div class="col-sm-8 form-group">
-      <%= label_tag(:"q#{i}", t('navbar.search_placeholder'),:class => 'repeats') %>
-      <%= text_field_tag('q[]', @search[:q][i], :id => "q#{i}",
-                         :class=> 'repeats js-search-box') %>
+      <div class="col-md-8 form-group">
+        <%= label_tag(:"q#{i}", t('navbar.search_placeholder'),:class => 'repeats') %>
+        <%= text_field_tag('q[]', @search[:q][i], :placeholder =>  t('navbar.search_placeholder'), :id => "q#{i}",
+                          :class=> 'form-control repeats fill-column js-search-box') %>
+      </div>
+      <div class="col-md-4 offset-md-2 form-group">
+        <%= label_tag(:"field#{i}", t('search-field'),:class => 'repeats') %>
+        <%= select_tag('field[]', options_for_select(field_options, @search[:field][i]), :id=> "field#{i}", :class=> 'form-control repeats') %>
+      </div>
+      <div class="col-md-2 form-group">
+        <%= label_tag(:"from_year#{i}", "#{t('search_results.filter.from_year')}", :class => 'repeats') %>
+        <%= text_field_tag('from_year[]', @search[:from_year][i], :size => 4,:maxlength => 4, :id=>"from_year#{i}",
+                          :placeholder => t('search_results.filter.from'),:class=>'form-control repeats') %>
+      </div>
+      <div class="col-md-2 form-group">
+        <%= label_tag(:"to_year#{i}", "#{t('search_results.filter.to_year')}", :class=> 'repeats') %>
+        <%= text_field_tag('to_year[]', @search[:to_year][i], :size => 4, :maxlength => 4, :id => "to_year#{i}",
+                          :class=> 'form-control repeats', :placeholder => t('search_results.filter.to')) %>
+      </div>
+      <div class="col-md-2 form-group text-left align-self-end">
+          <label for="plusminus<%= i %>" class="repeats plusminus_label"><%= t('advanced_search.add_row') %></label>
+          <span class="plusminus" id="plusminus<%= i %>"></span>
+      </div>
     </div>
-    <div class="col-sm-4 col-sm-offset-2 form-group">
-      <%= label_tag(:"field#{i}", t('search-field'),:class => 'repeats') %>
-      <%= select_tag('field[]', options_for_select(field_options, @search[:field][i]), :id=> "field#{i}", :class=> 'repeats') %>
-    </div>
-    <div class="col-sm-2 form-group">
-      <%= label_tag(:"from_year#{i}", "#{t('search_results.filter.from_year')}", :class => 'repeats') %>
-      <%= text_field_tag('from_year[]', @search[:from_year][i], :size => 4,:maxlength => 4, :id=>"from_year#{i}",
-                         :class=>'repeats') %>
-    </div>
-    <div class="col-sm-2 form-group">
-      <%= label_tag(:"to_year#{i}", "#{t('search_results.filter.to_year')}", :class=> 'repeats') %>
-      <%= text_field_tag('to_year[]', @search[:to_year][i], :size => 4, :maxlength => 4, :id => "to_year#{i}",
-                         :class=> 'repeats') %>
-    </div>
-    <div class="col-sm-2 form-group">
-        <span class="plusminus" id="plusminus<%= i %>"></span>
-    </div>
-  </div>
   <% end %>
-  <div class="row" id="submit_div">
-    <div class="col-sm-10 col-sm-offset-2">
-      <%= submit_tag(t('search-button.label'), :class=>'bgsu_common_button bgsu_common_button__primary', :id => 'submit_search') %>
+    <div class="row" id="submit_div">
+      <div class="col-md-10 offset-md-2">
+        <%= submit_tag(t('search-button.label'), :class=>'bgsu_common_button bgsu_common_button__primary', :id => 'submit_search') %>
+      </div>
     </div>
-  </div>
   <% end %>
 </div>
 <script type="text/javascript" >initialize_search();</script>

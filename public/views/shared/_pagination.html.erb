@@ -11,26 +11,26 @@
         <a class="bgsu_common_button bgsu_common_button__small bgsu_common__arrow_last"<% if pager.page < pager.last_page %> href="<%= prefix %>page=<%= pager.last_page %>"<% end %>>Last</a>
       <% end %>
     </div>
-	<div class="bgsu_common_pagination_current" aria-current="page">
-	  <% if defined?(@paging) %>
-		<%= defined?(@results_type) ? @results_type : t('search_results.results') %>
-		<span class="bgsu_common__nowrap">
-		  <%= number_with_delimiter(@paging['offset_first']) %> &ndash;
-		  <%= number_with_delimiter(@paging['offset_last']) %> of
-		  <%= number_with_delimiter(@paging['total_hits']) %>
-		</span>
-	  <% elsif defined?(@results) %>
-		<%= defined?(@results_type) ? @results_type : t('search_results.results') %>
-		<span class="bgsu_common__nowrap">
-		  <%= number_with_delimiter(@results['offset_first']) %> &ndash;
-		  <%= number_with_delimiter(@results['offset_last']) %> of
-		  <%= number_with_delimiter(@results['total_hits']) %>
-		</span>
-	  <% end %>
-	</div>
-	  <% if pager_id == 'paging' %>
-	  <%= render partial: 'shared/sorter' %>
-	  <% end %>
+    <div class="bgsu_common_pagination_current" aria-current="page">
+      <% if defined?(@paging) %>
+        <%= defined?(@results_type) ? @results_type : t('search_results.results') %>
+        <span class="bgsu_common__nowrap">
+          <%= number_with_delimiter(@paging['offset_first']) %> &ndash;
+          <%= number_with_delimiter(@paging['offset_last']) %> of
+          <%= number_with_delimiter(@paging['total_hits']) %>
+        </span>
+      <% elsif defined?(@results) %>
+        <%= defined?(@results_type) ? @results_type : t('search_results.results') %>
+        <span class="bgsu_common__nowrap">
+          <%= number_with_delimiter(@results['offset_first']) %> &ndash;
+          <%= number_with_delimiter(@results['offset_last']) %> of
+          <%= number_with_delimiter(@results['total_hits']) %>
+        </span>
+      <% end %>
+    </div>
+      <% if pager_id == 'paging' %>
+      <%= render partial: 'shared/sorter' %>
+      <% end %>
   </nav>
 </div>
 <% end %>

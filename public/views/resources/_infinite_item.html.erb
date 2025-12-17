@@ -2,8 +2,8 @@
   indent_level = @result.raw.fetch('ancestors', []).length
 %>
 <div class="infinite-item infinite-item-indent-<%= indent_level %>">
-  <% unless indent_level == 0 %>
-  <div class="information"<% if %r{/(\w+)s/(\d+)$} =~ @result.uri %> id="tree::<%= $1 %>_<%= $2 %>"<% end %>>
+<% unless indent_level == 0 %>
+  <div class="information">
       <%=
         render partial: 'shared/idbadge', locals: {
           :props => { :full => false, :infinite_item => true },
@@ -15,35 +15,34 @@
 
   <% scopecontent_note = @result.note('scopecontent') %>
   <% if scopecontent_note && !inherited?(scopecontent_note) %>
-    <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => scopecontent_note, :notitle => true} %>
+    <%= render partial: 'shared/single_note', locals: {:type => 'abstract', :note_struct => scopecontent_note, :notitle => true, :calling_partial => 'infinite_item'} %>
   <% end %>
 
 <% unless indent_level == 0 %>
-  <dl class="clearfix">
-
+  <dl>
     <% arrangement_note = @result.note('arrangement') %>
     <% if arrangement_note && !arrangement_note['note_text'].blank? && !inherited?(arrangement_note) %>
-      <dt><%= arrangement_note['label'] %></dt>
-      <dd>
-        <%= render partial: 'shared/single_note', locals: {:type => 'arrangement', :note_struct => arrangement_note, :notitle => true} %>
-      </dd>
+        <dt><%= arrangement_note['label'] %></dt>
+        <dd>
+          <%= render partial: 'shared/single_note', locals: {:type => 'arrangement', :note_struct => arrangement_note, :notitle => true, :calling_partial => 'infinite_item'} %>
+        </dd>
     <% end %>
 
     <% accessrestrict_note = @result.note('accessrestrict') %>
     <% if accessrestrict_note && !accessrestrict_note['note_text'].blank? && !inherited?(accessrestrict_note) %>
-      <dt><%= accessrestrict_note['label'] %></dt>
-      <dd>
-        <%= render partial: 'shared/single_note', locals: {:type => 'accessrestrict', :note_struct => accessrestrict_note, :notitle => true} %>
-      </dd>
+        <dt><%= accessrestrict_note['label'] %></dt>
+        <dd>
+          <%= render partial: 'shared/single_note', locals: {:type => 'accessrestrict', :note_struct => accessrestrict_note, :notitle => true, :calling_partial => 'infinite_item'} %>
+        </dd>
     <% end %>
 
     <% unless @result.dates.blank? || all_inherited?(@result.dates) %>
         <dt><%= t('resource._public.dates') %></dt>
         <% @result.dates.each do |date| %>
-        <dd>
-          <%= inheritance(date['_inherited']).html_safe %>
-          <%= date['final_expression'] %>
-        </dd>
+          <dd>
+            <%= inheritance(date['_inherited']).html_safe %>
+            <%= date['final_expression'] %>
+          </dd>
         <% end %>
     <% end %>
 
@@ -58,7 +57,7 @@
     <% end %>
 
     <% unless @result.agents.blank? || all_inherited?(@result.agents.collect(&:last).flatten) %>
-      <dt><%= t('pui_agent.related') %></dt>
+        <dt><%= t('pui_agent.related') %></dt>
         <% @result.agents.collect(&:last).flatten.each do |relationship| %>
           <dd>
             <%= link_to relationship.fetch('_resolved').fetch('title'), app_prefix(relationship.fetch('ref')) %>
@@ -68,26 +67,24 @@
 
     <% if @result.lang_materials %>
       <% @result.lang_materials.reject { |lm| inherited?(lm) }.each do |lang_material| %>
-        <dt><%= t('resource._public.lang')%></dt>
-        <dd><%= t('enumerations.language_iso639_2.' + lang_material['language']) %></dd>
+          <dt><%= t('resource._public.lang')%></dt>
+          <dd><%= t('enumerations.language_iso639_2.' + lang_material['language']) %></dd>
         <% unless lang_material['script'].blank? %>
-          <dt><%= t('resource._public.script')%></dt>
-          <dd><%= t('enumerations.script_iso15924.' + lang_material['script']) %></dd>
+            <dt><%= t('resource._public.script')%></dt>
+            <dd><%= t('enumerations.script_iso15924.' + lang_material['script']) %></dd>
         <% end %>
       <% end %>
     <% else %>
       <% langmaterial_note = @result.note('langmaterial') %>
       <% if langmaterial_note && !langmaterial_note['note_text'].blank? && !inherited?(langmaterial_note) %>
-        <dt><%= t('resource._public.lang')%></dt>
-        <dd>
-          <%= render partial: 'shared/single_note', locals: {:type => 'langmaterial', :note_struct => langmaterial_note, :notitle => false} %>
-        </dd>
+          <dt><%= t('resource._public.lang')%></dt>
+          <dd>
+            <%= render partial: 'shared/single_note', locals: {:type => 'langmaterial', :note_struct => langmaterial_note, :notitle => false} %>
+          </dd>
       <% end %>
     <% end %>
   </dl>
 <% end %>
 
-<% if @dig_objs[@result.uri] %>
-<%= render partial: 'shared/digital_objects', locals: {:dig_objs => @dig_objs[@result.uri]} %>
-<% end %>
+<%= render partial: 'shared/digital', locals: {:dig_objs => @dig, record: @result} %>
 </div>

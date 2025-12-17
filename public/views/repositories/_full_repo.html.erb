@@ -1,6 +1,6 @@
 <% if info["top"]["description"].present? %>
 <div class="description">
-  <%= simple_format(info["top"]["description"]) %>
+  <%= simple_format(info["top"]["description"], {}, wrapper_tag: "div")%>
 </div>
 <% end %>
 

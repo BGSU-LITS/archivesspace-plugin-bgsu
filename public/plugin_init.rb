@@ -1,7 +1,7 @@
 require File.join(File.dirname(__FILE__), "config.rb")
 
 Rails.application.config.after_initialize do
-  ['accessions', 'objects', 'resources', 'search'].each {
+  ['objects', 'resources', 'search'].each {
     |type|
     require File.join(
       File.dirname(__FILE__),

@@ -1,61 +1,71 @@
-<% uri = @result.uri %>
+<% @has_digital_objects = false %>
 <a name="main" title="<%= t('internal_links.main') %>"></a>
 
 <div id="main-content" class="row">
-  <div class="information col-sm-7">
+  <div id="info_row" class="col-12">
+    <div class="d-flex flex-column flex-md-row">
+      <div class="information flex-grow-1">
     <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
-  </div>
-  <div class="page_actions col-sm-5 right">
-    <%= render partial: 'shared/page_actions', locals: {:record => @result, :title =>  @result.display_string, :url => request.fullpath, :cite => @result.cite } %>
-  </div>
-</div>
-<%= render partial: 'shared/modal_actions' %>
-
-<%= javascript_include_tag 'treesync' %>
-<%= javascript_include_tag "#{@base_url}/assets/resizable_sidebar_left.js?v=20231116" %>
-<%= stylesheet_link_tag "#{@base_url}/assets/resizable_sidebar_left.css?v=20231116" %>
-
-<% @has_digital_objects = false %>
-<div class="row">
-  <div class="infinite-record-wrapper col-sm-9">
-      <div class="infinite-record-container">
-          <%= render partial: 'resources/resource_alltabs' %>
-          <h2><%= t('actions.hierarch') %></h2>
-          <% if @paging['last_page'] > 1 %>
-          <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
-          <% end %>
-          <div class="root">
-              <% @results.records.each do |record| %>
-                  <div class="infinite-record-record">
-                    <% @result = record %>
-                    <%= render partial: 'infinite_item' %>
-                  </div>
-              <% end %>
-          </div>
-          <% if @paging['last_page'] > 1 %>
-          <%= render partial: 'shared/pagination', locals: {:pager  => @pager, :pager_id => 'paging_bottom'}  %>
-          <% end %>
       </div>
-  </div>
-
-  <div id="sidebar" class="sidebar sidebar-container col-sm-3 resizable-sidebar infinite-tree-sidebar">
-  <% if AppConfig[:pui_search_collection_from_collection_organization] %>
-    <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => uri, :action_text => t('actions.search_in', :type => t('resource._singular'))} %>
-  <% end %>
-  <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('cont_arr'), :root_node_uri => uri, :current_node_uri => uri} %>
+      <div class="page_actions">
+    <%= render partial: 'shared/page_actions', locals: {:record => @result, :title =>  @result.display_string, :url => request.fullpath, :cite => @result.cite } %>
+      </div>
+    </div>
   </div>
 </div>
+
+<%
+  sidebar_position = AppConfig[:pui_collection_org_sidebar_position]
+  records_waypoint_size = Rails.configuration.infinite_records_waypoint_size
+  num_records = @ordered_records.count
+%>
+
+<div class="row">
+  <div
+    id="sidebar"
+    class="sidebar sidebar-container col-12 col-lg-3 resizable-sidebar <%= sidebar_position == 'left' ? 'resizable-sidebar-left' : 'order-1' %> infinite-tree-sidebar"
+    data-sidebar-position="<%= sidebar_position %>"
+  >
+    <% if AppConfig[:pui_search_collection_from_collection_organization] %>
+      <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result['uri'], :action_text => t('actions.search_in', :type => t('resource._singular'))} %>
+    <% end %>
+
+    <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('cont_arr'), :root_node_uri => @result.uri, :current_node_uri => @result.uri, :infinite => true} %>
+  </div>
+  <div class="col-12 col-lg-9 resizable-content-pane">
+    <%= render partial: 'resources/resource_alltabs' %>
+    <h2><%= t('actions.hierarch') %></h2>
+    <div>
+  <%= render partial: 'resources/infinite_records', locals: {
+    num_records: num_records,
+    records_waypoint_size: records_waypoint_size
+  } %>
+    </div>
+  </div>
+</div>
+
+<%= render partial: 'resources/infinite_load_all', locals: {num_records: num_records} %>
 
 <script>
-window.addEventListener('hashchange', function() {
-  var tree_id = tree_id_from_hash();
+const resourceUri = '<%= @result["uri"] %>';
+const appUrlPrefix = '<%= AppConfig[:public_proxy_url] %>';
+const workerPath = '<%= asset_path('infiniteRecordsWorker.js') %>';
+const mainMaxFetches = <%= Rails.configuration.infinite_records_main_max_concurrent_waypoint_fetches %>;
+const workerMaxFetches = <%= Rails.configuration.infinite_records_worker_max_concurrent_waypoint_fetches %>;
 
-  if (tree_id) {
-    tree.setCurrentNode(tree_id);
-  }
-});
+const infiniteRecords = new InfiniteRecords(
+  resourceUri,
+  appUrlPrefix,
+  workerPath,
+  mainMaxFetches,
+  workerMaxFetches
+);
 
-$('.note-content').each(function () {
-  $(this).readmore(160);
+infiniteRecords.populateAllWaypoints();
+
+  document.querySelectorAll("[data-js='readmore']").forEach((el) => {
+    new ReadMoreNotes(el);
   });
 </script>
+
+<%= render partial: 'shared/modal_actions' %>

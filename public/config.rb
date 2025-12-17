@@ -32,9 +32,16 @@ AppConfig[:pui_repos]['bpcl'] = {}
 AppConfig[:pui_repos]['bpcl'][:hide] = {}
 AppConfig[:pui_repos]['bpcl'][:hide][:classification_badge] = false
 
+# Reduce the number of characters before having a 'Read More' button.
+AppConfig[:pui_readmore_max_characters] = 250
+
 # Always show search form in collections.
 AppConfig[:pui_search_collection_from_archival_objects] = true
 AppConfig[:pui_search_collection_from_collection_organization] = true
 
 # Increase number of results per page.
 AppConfig[:pui_search_results_page_size] = 25
+
+# Do not use default favicon.
+AppConfig[:pui_show_favicon] = false
+

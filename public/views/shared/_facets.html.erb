@@ -1,37 +1,37 @@
 <%# displaying chosen facet(s) (if any) and facets %>
 
-  <% unless @filters.blank? && @search.filters_blank? %>
+ <% unless @filters.blank? && @search.filters_blank? %>
 <div class="filters">
     <h2 class="bgsu_common_sidebar_title"><%= t('search_results.filtered_by')%></h2>
        <ul>
         <% @search.get_filter_q_arr(@page_search).each do |f_q| %>
-	  <% unless f_q['v'].blank? %>
-	   <li><span class="filter"><%= t('search_results.search_term') %>: <%= f_q['v'] %>
-	       <a href="<%= app_prefix(f_q['uri']) %>" title="<%= t('search_results.remove_filter')%>" class="delete_filter bgsu_common_icon bgsu_common_icon__remove"></a></span></li>
+    <% unless f_q['v'].blank? %>
+	 <li><span class="filter"><%= t('search_results.search_term') %>: <%= f_q['v'] %>
+	     <a href="<%= app_prefix(f_q['uri']) %>" title="<%= t('search_results.remove_filter')%>" class="delete_filter bgsu_common_icon bgsu_common_icon__remove"></a></span></li>
           <% end %>
         <% end %>
       <% unless @search[:filter_from_year].blank? && @search[:filter_to_year].blank? %>
       <%
-	 from_year = (@search[:filter_from_year].blank? ? '' : @search[:filter_from_year] )
-	 to_year = (@search[:filter_to_year].blank? ? t('search_results.filter.year_now') : @search[:filter_to_year])
+   from_year = (@search[:filter_from_year].blank? ? '' : @search[:filter_from_year] )
+   to_year = (@search[:filter_to_year].blank? ? t('search_results.filter.year_now') : @search[:filter_to_year])
       %>
-      <li><span class="filter"><%= t('search_results.filter.from_to', {:begin=> from_year, :end => to_year  })%>
-	  <a href="<%= app_prefix(@page_search.sub("&filter_from_year=#{(from_year=='' ? '*' : from_year)}&filter_to_year=#{(to_year==t('search_results.filter.year_now') ? '*' : to_year)}",""))%>"
-	     title="<%= t('search_results.remove_filter') %> " class="delete_filter bgsu_common_icon bgsu_common_icon__remove"></a>
+      <li><span class="filter"><%= t('search_results.filter.from_to', :begin=> from_year, :end => to_year)%>
+    <a href="<%= app_prefix(@page_search.sub("&filter_from_year=#{(from_year=='' ? '*' : from_year)}&filter_to_year=#{(to_year==t('search_results.filter.year_now') ? '*' : to_year)}",""))%>"
+       title="<%= t('search_results.remove_filter') %> " class="delete_filter bgsu_common_icon bgsu_common_icon__remove"></a>
       </span></li>
   <% end  %>
-	<% @filters.each do |k, a| %>
-	  <% a.each do |h| %>
+  <% @filters.each do |k, a| %>
+    <% a.each do |h| %>
       <% if k == "classification_paths" %>
         <% json = ASUtils.json_parse(h['v'])[0] %>
         <% h['pv'] = "#{json['identifier']}#{I18n.t('classification.identifier_separator')} #{json['title']}" %>
       <% end %>
-		  <li><span class="filter"><%= h['pt'] %>: <%= h['pv'] %>
-			  <a href="<%= app_prefix(h['uri']) %>"
-					title="<%= t('search_results.remove_filter') %> " class="delete_filter bgsu_common_icon bgsu_common_icon__remove"></a></span>
-		  </li>
-	  <% end %>
-	<% end %>
+      <li><span class="filter"><%= h['pt'] %>: <%= h['pv'] %>
+        <a href="<%= app_prefix(h['uri']) %>"
+          title="<%= t('search_results.remove_filter') %> " class="delete_filter bgsu_common_icon bgsu_common_icon__remove"></a></span>
+      </li>
+    <% end %>
+  <% end %>
  </ul>
 </div>
  <% end %>
@@ -49,7 +49,9 @@
             <div>
             <%= text_field_tag('filter_q[]',
                                nil,
-                               :id => 'filter_q') %>
+                               :id => 'filter_q',
+                               :placeholder => t('actions.search_within'),
+                               :class=> "form-control") %>
             </div>
           </div>
         <% end %>
@@ -63,6 +65,8 @@
                                  nil,
                                  :size => 4,
                                  :maxlength => 4,
+                                 :class=>"form-control",
+                                 :placeholder => t('search_results.filter.from_year'),
                                  :id => 'filter_from_year') %>
               </div>
             </div>
@@ -74,6 +78,8 @@
                                  nil,
                                  :size => 4,
                                  :maxlength => 4,
+                                 :class=> "form-control",
+                                 :placeholder => t('search_results.filter.to_year'),
                                  :id => 'filter_to_year') %>
               </div>
             </div>
@@ -82,14 +88,18 @@
           <%= hidden_field_tag(:filter_from_year, @search[:filter_from_year], :id => nil) %>
           <%= hidden_field_tag(:filter_to_year, @search[:filter_to_year], :id => nil) %>
         <% end %>
-       <%= submit_tag(t('search-button.label'), :class=>'bgsu_common_button bgsu_common_button__primary bgsu_common_button__small', :id => nil) %>
+        <%= submit_tag(t('search-button.label'), :class=>'bgsu_common_button bgsu_common_button__primary bgsu_common_button__small', :id => nil) %>
   <% end %>
  </div>
 
 <% end %>
 <% only_facets = render partial: 'shared/only_facets' %>
 <% unless only_facets.strip.empty? %>
+<% if @search[:dates_within] || @search[:text_within] %>
 <h3><%= t('search_results.filter.add')%>: </h3>
+<% else %>
+<h2 class="bgsu_common_sidebar_title"><%= t('search_results.filter.head') %></h2>
+<% end %>
 <div id="facets">
 <%= only_facets %>
 

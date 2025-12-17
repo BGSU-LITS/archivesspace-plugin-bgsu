@@ -1,29 +1,36 @@
 <a name="main" title="<%= t('internal_links.main') %>"></a>
 
 <div id="main-content" class="row">
-  <div class="information col-sm-7">
+  <div id="info_row" class="col-12">
+    <div class="d-flex flex-column flex-md-row">
+      <div class="information flex-grow-1">
       <%= render partial: 'shared/idbadge', locals: {:result => @result, :props => { :full => true} } %>
-  </div>
-  <div class="page_actions col-sm-5 right">
+      </div>
+      <div class="page_actions">
     <%= render partial: 'shared/page_actions', locals: {:record => @result, :title =>  @result.display_string, :url => request.fullpath, :cite => @result.cite } %>
+      </div>
+    </div>
   </div>
 </div>
 
-<%= javascript_include_tag "#{@base_url}/assets/resizable_sidebar_left.js" %>
-<%= stylesheet_link_tag "#{@base_url}/assets/resizable_sidebar_left.css" %>
+<% sidebar_position = AppConfig[:pui_collection_org_sidebar_position] %>
 
 <div class="row">
-  <div class="col-sm-9">
-    <%= render partial: 'resources/resource_alltabs' %>
-    <h2><%= t('actions.digitized') %></h2>
-    <%= render partial: 'shared/results', locals: {:results => @results, :pager => @pager} %>
-  </div>
-  <div id="sidebar" class="col-sm-3 sidebar sidebar-container resizable-sidebar">
+  <div
+    id="sidebar"
+    class="sidebar sidebar-container col-12 col-lg-3 resizable-sidebar <%= sidebar_position == 'left' ? 'resizable-sidebar-left' : 'order-1' %> infinite-tree-sidebar"
+    data-sidebar-position="<%= sidebar_position %>"
+  >
    <% unless @results.blank? || @results['total_hits'] == 0 || @facets.blank? %>
     <%= render partial: 'shared/facets' %>
    <% end %>
    <%= render partial: 'shared/search_collection_form', :locals => {:resource_uri => @result['uri'], :action_text => "#{t('actions.search_in', :type => t('resource._singular'))}"} %>
    <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('cont_arr'), :root_node_uri => @result.uri, :current_node_uri => @result.uri} %>
+  </div>
+  <div class="col-12 col-lg-9 resizable-content-pane">
+    <%= render partial: 'resources/resource_alltabs' %>
+    <h2><%= t('actions.digitized') %></h2>
+    <%= render partial: 'shared/results', locals: {:results => @results, :pager => @pager} %>
   </div>
 </div>
 

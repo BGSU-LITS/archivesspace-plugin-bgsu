@@ -22,18 +22,16 @@ class ObjectsController
       end
 
       if params[:obj_type] == 'digital_objects'
-        redirect_to app_prefix(@result['json']['linked_instances'][0]['ref'])
+        unless @result['json']['linked_instances'].empty?
+          redirect_to app_prefix(@result['json']['linked_instances'][0]['ref'])
 
-        return
+          return
+        end
       end
 
       if params[:obj_type] == 'archival_objects'
-        @ordered_records = archivesspace.get_record(@result.root_node_uri + '/ordered_records').json.fetch('uris')
-
-        page = (@ordered_records.map {|r| r['ref']}.index(@result.uri) / 500).floor() + 1
-
         redirect_to app_prefix(@result.root_node_uri + "/collection_organization") +
-          (page > 1 ? "?page=#{page}" : "") + "#tree::archival_object_#{params[:id]}"
+          "#tree::archival_object_#{params[:id]}"
 
         return
       end

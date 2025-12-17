@@ -42,10 +42,10 @@ end
 <h<%= header_size %>>
   <% if !props.fetch(:full,false) && !props.fetch(:infinite_item,false) %>
     <a class="record-title" href="<%= app_prefix(url) %>" title="View <%= result.display_string %>">
-      <%== result.display_string %>
+        <%== process_mixed_content(result.display_string)%>
     </a>
   <% else %>
-    <%== props.fetch(:infinite_item, false) ? result.parse_full_title(true) : result.display_string %>
+    <%== props.fetch(:infinite_item, false) ? process_mixed_content(result.parse_full_title(true)) : process_mixed_content(result.display_string) %>
   <% end %>
 </h<%= header_size %>>
 

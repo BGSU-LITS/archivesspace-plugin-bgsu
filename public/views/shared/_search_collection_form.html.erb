@@ -10,7 +10,9 @@
       <div>
       <%= text_field_tag('filter_q[]',
                          nil,
-                         :id => 'filter_q0') %>
+                         :id => 'filter_q0',
+                         :placeholder => "#{action_text}",
+                         :class=> "form-control") %>
       </div>
     </div>
 
@@ -28,7 +30,9 @@
                            nil,
                            :id => 'filter_from_year',
                            :size => 4,
-                           :maxlength => 4) %>
+                           :maxlength => 4,
+                           :placeholder => t('search_results.filter.from_year'),
+                           :class=>"form-control") %>
         </div>
       </div>
 
@@ -40,13 +44,18 @@
                            nil,
                            :id => 'filter_to_year',
                            :size => 4,
-                           :maxlength => 4) %>
+                           :maxlength => 4,
+                           :placeholder => t('search_results.filter.to_year'),
+                           :class=> "form-control") %>
         </div>
       </div>
 
     </div>
 
-    <%= submit_tag(t('search-button.label'), :class=>'bgsu_common_button bgsu_common_button__primary bgsu_common_button__small') %>
+    <div>
+      <%= submit_tag(t('search-button.label'), :class=>'bgsu_common_button bgsu_common_button__primary bgsu_common_button__small') %>
+    </div>
+
   <% end %>
 
 </div>

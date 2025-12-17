@@ -1,13 +1,11 @@
 <div>
-<div>
-<h1><%= t('repository._plural') %></h1>
-<%= render partial: 'shared/breadcrumbs', locals: { :context => [{:crumb => t('repository._plural')}] } %>
-
-<%= render partial: 'shared/pagination', locals: {:pager => @pager} %>
-<% @json.each do |result| %>
-<%= render partial: 'repositories/repository', locals: {:result => result, :full => false} %>
-
-<% end %>
-<%= render partial: 'shared/pagination', locals: {:pager => @pager, :pager_id => 'paging_bottom'} %>
-</div>
+  <div>
+    <h1><%= t('repository._plural') %></h1>
+    <%= render partial: 'shared/breadcrumbs', locals: { :context => [{:crumb => t('repository._plural')}] } %>
+    <%= render partial: 'shared/pagination', locals: {:pager => @pager} %>
+    <% @json.each do |result| %>
+      <%= render partial: 'repositories/repository', locals: {:result => result, :full => false} %>
+    <% end %>
+    <%= render partial: 'shared/pagination', locals: {:pager => @pager, :pager_id => 'paging_bottom'} %>
+  </div>
 </div>

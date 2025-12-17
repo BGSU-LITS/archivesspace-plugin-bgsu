@@ -22,6 +22,18 @@
     <%= render partial: 'shared/result_record_summary', locals: {:result => result, :props => props } %>
   <% end %>
 
+  <% if result.highlights.present? %>
+    <div>
+      <% result.highlights.each do |key, value| %>
+        <% next if I18n.t("search_results.highlighting.#{key}").include?('Translation missing') %>
+        <div class="highlighting">
+          <strong><%= I18n.t('search_results.highlighting.found_in') %> <%= I18n.t("search_results.highlighting.#{key}") %>:</strong>&nbsp;
+          <%== process_mixed_content(value.join(" ")) %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
 <% if !props.fetch(:full,false) %>
    </div>
 <% end %>

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="<%= AppConfig[:locale] %>">
+<html lang="<%= session[:locale] ? session[:locale] : AppConfig[:locale] %>">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><%=  (@page_title.blank? ? '' : "#{strip_mixed_content(@page_title)} - ") %><%= t('brand.title') %> - BGSU University Libraries</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<% if AppConfig[:pui_show_favicon] %><%= render "shared/favicon" %><% end %>
+	<title><%=  (@page_title.blank? ? '' : "#{strip_mixed_content(@page_title)} - ") %><%= t('brand.title') %> - BGSU University Libraries</title>
 	<%= csrf_meta_tags %>
 
 	<%# block cross-origin refer per https://go-to-hellman.blogspot.com/2015/06/protect-reader-privacy-with-referrer.html %>
@@ -16,32 +17,34 @@
 	 var SHOW_IDENTIFIERS_IN_TREE = <%= AppConfig[:pui_display_identifiers_in_resource_tree] %>;
 	</script>
 
-	<%= stylesheet_link_tag    'application', media: 'all' %>
-	<%= javascript_include_tag 'application' %>
+	<%= stylesheet_link_tag    'application.css', media: 'all' %>
+	<%= javascript_include_tag 'application.js' %>
 
 	<%= render partial: 'shared/metadata' %>
 
 	<% ASUtils.find_local_directories('public/views/layout_head.html.erb').each do |template| %>
-		<% if File.exists?(template) %>
-			<!-- Begin plugin layout -->
-			<%= render :file => template %>
-			<!-- End plugin layout -->
-		<% end %>
+		<!-- Begin plugin layout -->
+		<%= render :template => ViewHelper.relative_plugin_view_path(template) if File.exists?(template) %>
+		<!-- End plugin layout -->
 	<% end %>
 </head>
 
 <body>
-    <script>(s=>{s.display='none';document.addEventListener('DOMContentLoaded',()=>s.display='block')})(document.documentElement.style)</script>
+	<script>(s=>{s.display='none';document.addEventListener('DOMContentLoaded',()=>s.display='block')})(document.documentElement.style)</script>
 
-    <main id="content">
-        <a name="maincontent" id="maincontent"></a>
-        <%= flash_messages %>
-        <%= yield %>
-    </main>
+	<main id="content">
 
-	<script  type="text/javascript" >
-		$(".upper-record-details .note-content").each(function(index, element){$(this).readmore(<%= AppConfig[:pui_readmore_max_characters] %>)});
-	</script>
+	<% ASUtils.find_local_directories('public/views/body_top.html.erb').each do |template| %>
+		<!-- Begin plugin layout -->
+		<%= render :template => ViewHelper.relative_plugin_view_path(template) if File.exists?(template) %>
+		<!-- End plugin layout -->
+	<% end %>
+
+		<a name="maincontent" id="maincontent"></a>
+		<%= flash_messages %>
+		<%= yield %>
+
+	</main>
 
 	<% if AppConfig[:pui_enable_staff_link] %>
 		<% if AppConfig.has_key?(:frontend_proxy_url) && defined?(@result) && @result.respond_to?(:uri) %>
@@ -53,87 +56,87 @@
 		<% end %>
 	<% end %>
 
-    <script src="https://lib.bgsu.edu/template/2.0.0-b13/template.js"></script>
-    <script src="https://lib.bgsu.edu/template/2.0.0-b13/common.js"></script>
-    <script>
-        <% welcome = request.original_fullpath.chomp('/') == app_prefix('/').chomp('/') %>
-        bgsu_template.setup({
-            main: {
-                id: 'content',
-                top: 'top',
-            },
-            unit: {
-                thin: 'University',
-                text: 'Libraries',
-                href: 'https://www.bgsu.edu/library/',
-            },
-            site: {
-                text: '<%= t('brand.title') %>',
-                href: '<%= app_prefix('/') %>',
-                heading: <%= welcome ? 'true' : 'false' %>,
-            },
-            menu: [
-                <% $MAIN_MENU.each do |link| %>
-                {
-                    text: '<%= t(link[1]) %>',
-                    <% if link[0] == '/repositories' %>
-                    menu: [
-                        {
-                            text: '<%= t('repositories.bpcl') %>',
-                            href: '<%= app_prefix(link[0]) %>/2',
-                        },
-                        {
-                            text: '<%= t('repositories.cac') %>',
-                            href: '<%= app_prefix(link[0]) %>/4',
-                        },
-                        {
-                            text: '<%= t('repositories.mlbssa') %>',
-                            href: '<%= app_prefix(link[0]) %>/3',
-                        },
-                    ],
-                    <% else %>
-                    title: 'View <%= t(link[1]) %>',
-                    href: '<%= app_prefix(link[0]) %>',
-                    <% end %>
-                },
-                <% end %>
-            ],
-            <% unless AppConfig[:pui_hide][:search_tab] || welcome %>
-            form: {
-                action: "<%= app_prefix('/search') %>",
-                method: "get",
-                hidden: {
-                    "utf8": "✓",
-                    "op[]": "",
-                },
-                name: "q[]",
-                text: '<%= I18n.t('search_tab', :target => t('archive._plural')) %>',
-                button: "<%= t('search-button.label') %>",
-                menu: [
-                    {
-                        text: 'Advanced Search',
-                        href: '<%= app_prefix('/search?reset=true') %>',
-                    },
-                ],
-            },
-            <% end %>
-            help: {
-                heading: 'University Libraries',
-                text: 'Ask Us!',
-                href: 'https://www.bgsu.edu/library/ask-us/',
-            },
-        });
+	<script src="https://lib.bgsu.edu/template/2.0.0-b21/template.js"></script>
+	<script src="https://lib.bgsu.edu/template/2.0.0-b21/common.js"></script>
+	<script>
+		<% welcome = request.original_fullpath.chomp('/') == app_prefix('/').chomp('/') %>
+		bgsu_template.setup({
+			main: {
+				id: 'content',
+				top: 'top',
+			},
+			unit: {
+				thin: 'University',
+				text: 'Libraries',
+				href: 'https://www.bgsu.edu/library/',
+			},
+			site: {
+				text: '<%= t('brand.title') %>',
+				href: '<%= app_prefix('/') %>',
+				heading: <%= welcome ? 'true' : 'false' %>,
+			},
+			menu: [
+				<% $MAIN_MENU.each do |link| %>
+				{
+					text: '<%= t(link[1]) %>',
+					<% if link[0] == '/repositories' %>
+					menu: [
+						{
+							text: '<%= t('repositories.bpcl') %>',
+							href: '<%= app_prefix(link[0]) %>/2',
+						},
+						{
+							text: '<%= t('repositories.cac') %>',
+							href: '<%= app_prefix(link[0]) %>/4',
+						},
+						{
+							text: '<%= t('repositories.mlbssa') %>',
+							href: '<%= app_prefix(link[0]) %>/3',
+						},
+					],
+					<% else %>
+					title: 'View <%= t(link[1]) %>',
+					href: '<%= app_prefix(link[0]) %>',
+					<% end %>
+				},
+				<% end %>
+			],
+			<% unless AppConfig[:pui_hide][:search_tab] || welcome %>
+			form: {
+				action: "<%= app_prefix('/search') %>",
+				method: "get",
+				hidden: {
+					"utf8": "✓",
+					"op[]": "",
+				},
+				name: "q[]",
+				text: '<%= I18n.t('search_tab', :target => t('archive._plural')) %>',
+				button: "<%= t('search-button.label') %>",
+				menu: [
+					{
+						text: 'Advanced Search',
+						href: '<%= app_prefix('/search?reset=true') %>',
+					},
+				],
+			},
+			<% end %>
+			help: {
+				heading: 'University Libraries',
+				text: 'Ask Us!',
+				href: 'https://www.bgsu.edu/library/ask-us/',
+			},
+		});
 
-        bgsu_common.setup();
+		bgsu_common.setup();
 
-        document.querySelectorAll('.note-content').forEach(node => {
-            const html = node.innerHTML;
+		document.querySelectorAll('.note-content').forEach(node => {
+			const html = node.innerHTML;
 
-            node.innerHTML = html.replaceAll(
-                /<br\s*\/?>\s*<br\s*\/?>/g,
-                '<span class="bgsu_common__break"></span>'
-            );
-        });
-    </script>
+			node.innerHTML = html.replaceAll(
+				/<br\s*\/?>\s*<br\s*\/?>/g,
+				'<span class="bgsu_common__break"></span>'
+			);
+		});
+	</script>
 </body>
 </html>

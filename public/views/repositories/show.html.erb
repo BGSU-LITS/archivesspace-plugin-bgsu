@@ -7,14 +7,14 @@
     <h2><%= t('repository.what') %> </h2>
     <div>
       <ul class="bgsu_common_list_inline">
-	<% @badges.each do |type| %>
-	<%= render partial: 'repositories/badge', locals: {:type => type} %>
-	<% end %>
+        <% @badges.each do |type| %>
+          <%= render partial: 'repositories/badge', locals: {:type => type} %>
+        <% end %>
       </ul>
     </div>
 
   </div>
-  <%= render partial: 'shared/search', locals: {:search_url => "/search",
+  <%= render partial: 'shared/search', locals: {:search_url => "#{@result['uri']}/search",
    :title => t('repository._singular'),
    :limit_options =>  [["#{t('actions.search')} #{t('search-limits.all')}",''],
             [t('search-limit', :limit => t('search-limits.resources')),'resource'],
