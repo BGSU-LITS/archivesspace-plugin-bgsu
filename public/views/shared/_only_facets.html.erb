@@ -28,22 +28,24 @@
         <% end %>
         </ul>
       <% else %>
+        <%
+          visible_facets = facet_group.slice(0, max_facets_on_load)
+          hidden_facets = facet_group.slice(max_facets_on_load, facet_group.length - 1)
+        %>
         <ul>
-        <% facet_group.slice(0, max_facets_on_load).each do |facet| %>
+        <% visible_facets.each do |facet| %>
           <%= render partial: 'shared/facet_description', locals: { type: type, facet: facet } %>
         <% end %>
         </ul>
-        <div class="more-facets">
+        <ul class="more-facets__facets">
+        <% hidden_facets.each do |facet| %>
+            <%= render partial: 'shared/facet_description', locals: { type: type, facet: facet } %>
+        <% end %>
+        </ul>
+        <div class="more-facets__controls">
           <button type="button" class="more-facets__more bgsu_common_button bgsu_common_button__small">
             <%= t('search_results.more_facets') %> <i class="fa fa-chevron-down"></i>
           </button>
-          <div class="more-facets__facets">
-            <ul>
-            <% facet_group.slice(max_facets_on_load, facet_group.length - 1).each do |facet| %>
-              <%= render partial: 'shared/facet_description', locals: { type: type, facet: facet } %>
-            <% end %>
-            </ul>
-          </div>
           <button type="button" class="more-facets__less bgsu_common_button bgsu_common_button__small">
             <%= t('search_results.fewer_facets') %> <i class="fa fa-chevron-up"></i>
           </button>

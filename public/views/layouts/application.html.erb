@@ -40,7 +40,7 @@
 		<!-- End plugin layout -->
 	<% end %>
 
-		<a name="maincontent" id="maincontent"></a>
+	    <a id="maincontent" tabindex="-1"></a>
 		<%= flash_messages %>
 		<%= yield %>
 
@@ -56,8 +56,8 @@
 		<% end %>
 	<% end %>
 
-	<script src="https://lib.bgsu.edu/template/2.0.0-b21/template.js"></script>
-	<script src="https://lib.bgsu.edu/template/2.0.0-b21/common.js"></script>
+	<script src="https://lib.bgsu.edu/template/2.0.0-b23/template.js"></script>
+	<script src="https://lib.bgsu.edu/template/2.0.0-b23/common.js"></script>
 	<script>
 		<% welcome = request.original_fullpath.chomp('/') == app_prefix('/').chomp('/') %>
 		bgsu_template.setup({
@@ -65,6 +65,14 @@
 				id: 'content',
 				top: 'top',
 			},
+            acc: {
+                statement: `
+                    If this resource is not accessible to you, please email:
+                    <a href="mailto:accessibility@libanswers.bgsu.edu">
+                    accessibility@libanswers.bgsu.edu</a>,
+                    so that we can explore solutions with you.
+                `,
+            },
 			unit: {
 				thin: 'University',
 				text: 'Libraries',

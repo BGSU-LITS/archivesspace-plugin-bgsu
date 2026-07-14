@@ -28,6 +28,7 @@
    <%= render partial: 'shared/children_tree', :locals => {:heading_text => t('cont_arr'), :root_node_uri => @result.uri, :current_node_uri => @result.uri} %>
   </div>
   <div class="col-12 col-lg-9 resizable-content-pane">
+    <a id="searchresults" tabindex="-1"></a>
     <%= render partial: 'resources/resource_alltabs' %>
     <h2><%= t('actions.digitized') %></h2>
     <%= render partial: 'shared/results', locals: {:results => @results, :pager => @pager} %>

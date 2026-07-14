@@ -1,5 +1,4 @@
  <%# any result that is going to be presented in a list %>
- <% header_size = '3' if header_size.nil? %>
   <% if !props.fetch(:full,false) %>
    <div class="recordrow" style="clear:both" data-uri="<%= result.uri %>">
      <% end %>
@@ -13,12 +12,12 @@
         :figcaption_class => 'result-repfv__figcaption'
       } %>
       <div>
-        <%= render partial: 'shared/idbadge', locals: {:result => result, :props => props, :header_size => header_size } %>
+        <%= render partial: 'shared/idbadge', locals: {:result => result, :props => props } %>
         <%= render partial: 'shared/result_record_summary', locals: {:result => result, :props => props } %>
       </div>
     </div>
   <% else %>
-    <%= render partial: 'shared/idbadge', locals: {:result => result, :props => props, :header_size => header_size } %>
+    <%= render partial: 'shared/idbadge', locals: {:result => result, :props => props } %>
     <%= render partial: 'shared/result_record_summary', locals: {:result => result, :props => props } %>
   <% end %>
 

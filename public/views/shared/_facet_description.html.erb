@@ -2,7 +2,7 @@
   <% json = ASUtils.json_parse(facet.label)[0] %>
   <% facet.label = "#{json['identifier']}#{I18n.t('classification.identifier_separator')} #{json['title']}" %>
 <% end %>
-<li>
+<li class="<%= local_assigns[:container_class] %>">
   <a href="<%= app_prefix("#{@page_search}&filter_fields[]=#{type}&filter_values[]=#{CGI.escape(facet.key)}") %>"
     rel="nofollow"
     title="<%= t('search_results.filter_by')%> '<%= facet.label %>'">

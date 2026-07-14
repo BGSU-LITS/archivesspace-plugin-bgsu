@@ -18,10 +18,16 @@
       <% unless facets.strip.empty? %>
         <%= facets %>
       <% end %>
-      <div class="clear">
-        <h3><%= t('enumeration_names.subject_source') %></h3><p><%= t("enumerations.subject_source.#{@result['json']['source']}" ) %></p>
-      </div>
-      <div class="clear">
+      <% if @result['json']['source'].present? %>
+        <%
+          source_value = @result['json']['source']
+          # If source contains a colon it's already formatted (eg, 'AAT: Art & Architecture Thesaurus'),
+          # otherwise it's a code (eg, 'aat') so translate it
+          display_source = source_value.include?(':') ? source_value : t("enumerations.subject_source.#{source_value}", default: source_value)
+        %>
+        <h3><%= t('enumeration_names.subject_source') %></h3>
+        <p><%= display_source %></p>
+      <% end %>
         <div id="res_accordion">
           <% if !(terms = ASUtils.wrap(@result['json']['terms'])).empty? %>
             <% x = render partial: 'subjects/terms', locals: {:terms =>  terms, :list_clss => 'terms'} %>

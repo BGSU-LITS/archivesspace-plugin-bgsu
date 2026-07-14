@@ -47,18 +47,23 @@
 <%= render partial: 'resources/infinite_load_all', locals: {num_records: num_records} %>
 
 <script>
+const uriFragment = window.location.hash;
 const resourceUri = '<%= @result["uri"] %>';
 const appUrlPrefix = '<%= AppConfig[:public_proxy_url] %>';
 const workerPath = '<%= asset_path('infiniteRecordsWorker.js') %>';
 const mainMaxFetches = <%= Rails.configuration.infinite_records_main_max_concurrent_waypoint_fetches %>;
 const workerMaxFetches = <%= Rails.configuration.infinite_records_worker_max_concurrent_waypoint_fetches %>;
 
+const coordinator = new InfiniteCoordinator();
+
 const infiniteRecords = new InfiniteRecords(
   resourceUri,
   appUrlPrefix,
   workerPath,
   mainMaxFetches,
-  workerMaxFetches
+  workerMaxFetches,
+  uriFragment,
+  coordinator
 );
 
 infiniteRecords.populateAllWaypoints();

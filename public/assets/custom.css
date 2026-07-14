@@ -2,13 +2,12 @@
     padding: 0;
 }
 
-#facets .more-facets .more-facets__facets,
-#facets .more-facets .more-facets__less {
+#facets .more-facets__less {
     display: none;
 }
 
-#facets .more-facets .more-facets__less,
-#facets .more-facets .more-facets__more {
+#facets .more-facets__less,
+#facets .more-facets__more {
     margin: -0.5rem 0 0 2rem;
 }
 

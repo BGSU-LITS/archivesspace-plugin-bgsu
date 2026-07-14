@@ -59,7 +59,7 @@
     <%= render partial: 'shared/pagination', locals: {:pager  => @pager}  %>
     <div class="search-results bgsu_common__full"><div>
 
-    <a name="searchresults" id="searchresults"></a>
+    <a id="searchresults" tabindex="-1"></a>
 
     <% @results.records.each do |result| %>
       <%= render partial: 'shared/result', locals: {:result => result, :props => (@result_props || {}).merge({:full => false}), :header_size => 2} %>
